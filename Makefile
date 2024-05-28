@@ -59,9 +59,8 @@ switch_branch:
 	if git show-ref --verify --quiet "refs/heads/$(BN)"; then \
 		git checkout $(BN); \
 	else \
-		echo "Branch $(BN) não encontrada localmente. Buscando do repositório remoto..."; \
-		git fetch origin $(BN); \
-		git checkout $(BN); \
+		echo "Branch $(BN) não encontrada localmente. Criando uma nova branch..."; \
+		git checkout -b $(BN); \
 	fi; \
 	echo "Trocado para a branch $(BN) com sucesso!"
 
@@ -74,12 +73,13 @@ createapp:
 		echo "APP_NAME não está definido. Use 'make createapp APP_NAME=nome_do_app'"; \
 		exit 1; \
 	fi; \
-	poetry run backend/manage.py startapp $(APP_NAME)
-	@echo "App $(APP_NAME) criado com sucesso!"
-	@touch backend/$(APP_NAME)/routes.py
-	@touch backend/$(APP_NAME)/serializers.py
-	@touch backend/$(APP_NAME)/tasks.py
-	@echo "Arquivos routes.py, serializers.py e tasks.py criados com sucesso em $(APP_NAME)!"
+	poetry run python backend/manage.py startapp $(APP_NAME); \
+	echo "App $(APP_NAME) criado com sucesso!"; \
+	touch backend/$(APP_NAME)/routes.py; \
+	touch backend/$(APP_NAME)/serializers.py; \
+	touch backend/$(APP_NAME)/tasks.py; \
+	echo "Arquivos routes.py, serializers.py e tasks.py criados com sucesso em $(APP_NAME)!"
+
 
 clean:
 	@find . -name "*.pyc" -exec rm -rf {} \;
@@ -114,6 +114,11 @@ docker_up:
 docker_update_dependencies:
 	docker compose down
 	docker compose up -d --build
+
+docker_update_dependencies_witch_cache:
+	docker compose down
+	docker-compose build --no-cache
+	docker-compose up -d
 
 docker_down:
 	docker compose down
