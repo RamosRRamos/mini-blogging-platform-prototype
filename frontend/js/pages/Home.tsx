@@ -1,44 +1,133 @@
-import { useState, useEffect } from "react";
-import Button from "react-bootstrap/Button";
+import {useState} from "react";
+import {Button, Card, Col, Container, Row} from "react-bootstrap";
 
-import DjangoImgSrc from "../../assets/images/django-logo-negative.png";
-import { RestService } from "../api";
 
 const Home = () => {
-  const [showBugComponent, setShowBugComponent] = useState(false);
-  const [restCheck, setRestCheck] =
-    useState<Awaited<ReturnType<typeof RestService.restRestCheckRetrieve>>>();
 
-  useEffect(() => {
-    async function onFetchRestCheck() {
-      setRestCheck(await RestService.restRestCheckRetrieve());
-    }
-    onFetchRestCheck();
-  }, []);
+
+
+  const user = {
+    name: "John Doe",
+    email: "",
+    posts: [{id: 1, title: "Post 1"}, {id: 2, title: "Post 2"}],
+  };
+
+  const title = "Título do Post";
+  const content =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut est quis massa tincidunt lacinia ac eget tellus. Nullam eu elit et risus varius pellentesque. Sed pharetra felis in mauris scelerisque, vitae consectetur libero rhoncus. Vivamus venenatis ex at purus sagittis interdum. Duis vitae elit id tellus iaculis vehicula. Integer in ipsum vitae justo feugiat dictum. Suspendisse potenti. Proin rutrum, nulla eget finibus efficitur, nisl arcu posuere tortor, et malesuada sapien odio eget purus. Donec ut turpis ac velit volutpat posuere. In vel elit non metus hendrerit tempus. Sed in mi augue.";
+  const author = "Autor do Post";
+  const createdAt = "01 de janeiro de 2023";
+  const lastModified = "05 de janeiro de 2023";
+  const comments = [
+    {
+      text: "Comentário 1",
+      author: "Autor do Comentário 1",
+      createdAt: "02 de janeiro de 2023",
+    },
+    {
+      text: "Comentário 2",
+      author: "Autor do Comentário 2",
+      createdAt: "03 de janeiro de 2023",
+    },
+    {
+      text: "Comentário 3",
+      author: "Autor do Comentário 3",
+      createdAt: "04 de janeiro de 2023",
+    },
+  ];
 
   return (
     <>
-      <h2>Static assets</h2>
-      <div id="django-background">
-        If you are seeing the green Django logo on a white background and this
-        text color is #092e20, frontend static files serving is working:
-      </div>
-      <div id="django-logo-wrapper">
-        <div>
-          Below this text, you should see an img tag with the white Django logo
-          on a green background:
-        </div>
-        <img alt="Django Negative Logo" src={DjangoImgSrc} />
-      </div>
-      <h2>Rest API</h2>
-      <p>{restCheck?.message}</p>
-      <Button variant="outline-dark" onClick={() => setShowBugComponent(true)}>
-        Click to test if Sentry is capturing frontend errors! (Should only work
-        in Production)
-      </Button>
-      {/* NOTE: The next line intentionally contains an error for testing frontend errors in Sentry. */}
-      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-      {showBugComponent && (showBugComponent as any).field.notexist}
+      <Container fluid>
+
+        <Row className="mt-3 mb-3">
+          <Col>
+            <h1>Dashboard</h1>
+          </Col>
+        </Row>
+
+        <Row className="mt-3 mb-3">
+          <Col md={4}>
+            <Card>
+              <Card.Body>
+                <Card.Title>Create a new Post</Card.Title>
+                <Card.Text>Start a new post</Card.Text>
+                <Button variant="success">
+                  Create a post
+                </Button>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md={4}>
+            <Card>
+              <Card.Body>
+                <Card.Title>Manage your posts</Card.Title>
+                <Card.Text>Manage your blog posts here.</Card.Text>
+                <Button variant="success">Manage Posts</Button>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md={4}>
+            <Card>
+              <Card.Body>
+                <Card.Title>Comments</Card.Title>
+                <Card.Text>View and moderate comments on your blog.</Card.Text>
+                <Button variant="success">Manage Comments</Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+
+        <Row className="mt-3 mb-3">
+          <Col md={4}>
+            <Card>
+              <Card.Body>
+                <Card.Title>Últimos Posts</Card.Title>
+                <Card.Text>
+                  <ul>
+                    {user.posts.map((post) => (
+                      <li key={post.id}>{post.title}</li>
+                    ))}
+                  </ul>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md={8}>
+            <Card className="mb-3">
+              <Card.Body>
+                <h2 className="card-title">{title}</h2>
+                <p className="card-text">{content}</p>
+                <p className="card-text">
+                  <small className="text-muted">Author: {author}</small>
+                </p>
+                <p className="card-text">
+                  <small className="text-muted">Created At: {createdAt}</small>
+                </p>
+                <p className="card-text">
+                  <small className="text-muted">Last Modified: {lastModified}</small>
+                </p>
+              </Card.Body>
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item bg-light mt-3 mb-3">
+                  <h3>Comments</h3>
+                </li>
+                {comments.map((comment, index) => (
+                  <li key={index} className="list-group-item mt-3 mb-3">
+                    <p>{comment.text}</p>
+                    <p className="card-text">
+                      <small className="text-muted">By: {comment.author}</small>
+                    </p>
+                    <p className="card-text">
+                      <small className="text-muted">Posted At: {comment.createdAt}</small>
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 };

@@ -17,9 +17,11 @@
 
 <body>
   {% include 'includes/sentry_init.html' %}
-
+  
+  <div class="container" id="navbar"></div>  
   <!-- Body Content -->
   {% block body %}{% endblock %}
+  <div class="container" id="footer"></div>
 
   <!-- django-js-reverse -->
   <script src="{% url 'js_reverse' %}" type="text/javascript"></script>
@@ -27,5 +29,7 @@
   <!-- Webpack rendered Javascript -->
   {% render_bundle 'main' 'js' 'DEFAULT' %}
   {% block scripts %}{% endblock %}
+
+  
 </body>
 </html>
