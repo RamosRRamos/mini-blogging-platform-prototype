@@ -411,6 +411,53 @@ Feel free to contribute by creating poetrys runs to fill in the Makefile command
 
 
 
-Feel free to contribute to this article. 🗿
+
+## Project references
+
+- [Django](https://www.djangoproject.com/)
+- [Django REST Framework](https://www.django-rest-framework.org/)
+- [React](https://reactjs.org/)
+- [Poetry](https://python-poetry.org/)
+- [Docker](https://www.docker.com/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Redis](https://redis.io/)
+- [Celery](https://docs.celeryproject.org/en/stable/)
+- [MailHog](https://github.com/mailhog/MailHog)
+- [Swagger](https://swagger.io/)
+- [ReDoc](https://redoc.ly/)
+- [DRF-Spectacular](https://drf-spectacular.readthedocs.io/en/latest/)
+- [Django Webpack Loader](https://github.com/django-webpack/django-webpack-loader)
+- [Django JS Reverse](https://github.com/vintasoftware/django-js-reverse)
+- [Django Abstract Project](https://github.com/WRL-Manager/wrlcode-base-abstract-django)
+- [Django-React-Boilerplate](https://github.com/vintasoftware/django-react-boilerplate?tab=readme-ov-file)
+- [Django Upgrade](https://github.com/adamchainz/django-upgrade)
+- [Django Guid](https://github.com/snok/django-guid)
+- [Django CSP](https://django-csp.readthedocs.io/en/latest/)
+- [Django Permissions Policy](https://github.com/adamchainz/django-permissions-policy)
+- [Django Defender](https://github.com/jazzband/django-defender)
+- [WhiteNoise](https://whitenoise.readthedocs.io/en/latest/)
+- [Brotlipy](brotlipy)
+- [Axios](https://axios-http.com/)
+- [Cookie](https://www.npmjs.com/package/cookie)
+- [OpenAPI-TS](https://www.npmjs.com/package/openapi-ts)
+- [GitHub Actions](https://docs.github.com/en/actions)
+- [Sentry](https://sentry.io/)
+- [Bandit](https://bandit.readthedocs.io/en/latest/)
+- [PyCharm](https://www.jetbrains.com/pycharm/)
+- [WebStorm](https://www.jetbrains.com/webstorm/)
+- [GitHub Projects](https://docs.github.com/en/issues/organizing-your-work-with-project-boards/about-project-boards)
+- [MIT License](https://opensource.org/licenses/MIT)
+- [Ruff](https://ruff.readthedocs.io/en/latest/)
+
+### Book references and articles
+
+- [Zen of Python](https://www.python.org/dev/peps/pep-0020/)
+- [Clean Code](https://www.amazon.com.br/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882)
+- [Clean Architecture](https://www.amazon.com.br/Clean-Architecture-Craftsmans-Software-Structure/dp/0134494164)
+- [TDD](https://www.amazon.com.br/Test-Driven-Development-Kent-Beck/dp/0321146530)
+- [Refactoring](https://www.amazon.com.br/Refactoring-Improving-Design-Existing-Code/dp/0134757599)
+- [Design Patterns](https://www.amazon.com.br/Design-Patterns-Elements-Reusable-Object-Oriented/dp/0201633612)
+- [PMBOK](https://www.pmi.org/pmbok-guide-standards/foundational/pmbok)
 
 
+# Feel free to contribute to this article. 🗿
