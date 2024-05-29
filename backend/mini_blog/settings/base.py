@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "django_guid",
     "common",
     "users",
+    "posts",
+    "comments",
 ]
 
 MIDDLEWARE = [
@@ -118,8 +120,8 @@ REST_FRAMEWORK = {
 
 # drf-spectacular
 SPECTACULAR_SETTINGS = {
-    "TITLE": "Vinta Boilerplate API",
-    "DESCRIPTION": "A Django project boilerplate with Vinta's best practices",
+    "TITLE": "Mini Blog API",
+    "DESCRIPTION": "A Mini blog project with Django and React.",
     "VERSION": "0.1.0",
     "SERVE_INCLUDE_SCHEMA": False,
 }

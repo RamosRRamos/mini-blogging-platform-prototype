@@ -1,3 +1,12 @@
+"""
+Module: celery_tasks
+
+This module initializes Celery for the mini_blog project, configuring tasks, schedules, and autodiscovery of tasks.
+
+Classes:
+    - Celery: Celery application for managing tasks.
+"""
+
 import os
 import sys
 

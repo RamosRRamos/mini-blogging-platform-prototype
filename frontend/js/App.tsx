@@ -13,9 +13,9 @@ OpenAPI.interceptors.request.use((request) => {
 });
 
 const App = () => (
-  <Sentry.ErrorBoundary fallback={<p>An error has occurred</p>}>
+
     <Outlet/>
-  </Sentry.ErrorBoundary>
+
 );
 
 export default App;
