@@ -1,15 +1,20 @@
 # Blog MVP
 
-## Descrição do Projeto
+## Project description
 
-Este é um MVP (Minimum Viable Product) de um blog onde os usuários podem criar, ler, deletar posts e comentar nas postagens de outros. O projeto é desenvolvido utilizando Python Django no backend e React no frontend.
+This is an MVP (Minimum Viable Product) of a blog where users can create, read, 
+delete posts and comment on other people's posts. The project is developed using 
+Python Django on the backend and React on the frontend.
 
-## Objetivos do Protótipo
+## Prototype goals
 
-- Criar um blog simples e funcional onde os usuários podem interagir com postagens e comentários.
-- Foco na usabilidade e funcionalidades essenciais.
+- Create a simple, functional blog where users can interact with posts and comments.
+- Focus on usability and essential functionalities.
+
 
 ## Use Cases
+
+![Use Case](docs/case_use.png)
 
 ### 1. User Registration
 **Actor**: Visitor  
@@ -101,13 +106,17 @@ Este é um MVP (Minimum Viable Product) de um blog onde os usuários podem criar
 **Alternate Flows**:
 - 2a. User provides invalid information and the system returns error messages.
 
-## Estrutura do Projeto
+## Backend Project Visualized
+
+![Project Visualized](docs/project_visualized.png)
+
+## Project Structure
 
 - **Backend**: Django
 - **Frontend**: React
-- **Banco de Dados**: SQLite (pode ser atualizado para outro SGBD conforme necessidade)
-- **Docker**: Docker e Docker Compose para containerização
-- **Testes**: TDD (Desenvolvimento Orientado a Testes)
+- **Database**: SQLite, Postgres (can be upgraded to another DBMS as needed)
+- **Docker**: Docker and Docker Compose for containerization
+- **Testing**: TDD (Test-Driven Development)
 
 ## Como Rodar o Projeto
 

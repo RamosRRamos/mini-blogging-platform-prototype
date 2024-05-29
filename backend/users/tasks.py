@@ -8,7 +8,9 @@ Functions:
 """
 
 from django.core import management
+
 from mini_blog import celery_app
+
 
 @celery_app.task
 def clearsessions():

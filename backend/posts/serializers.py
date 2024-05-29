@@ -6,6 +6,7 @@ enabling their conversion to and from JSON format for API interactions.
 """
 
 from rest_framework import serializers
+
 from .models import Post
 
 

@@ -7,8 +7,10 @@ Classes:
 """
 
 import uuid
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
 from model_utils.fields import AutoCreatedField, AutoLastModifiedField
 
 
@@ -17,6 +19,7 @@ class IndexedTimeStampedModel(models.Model):
     Abstract base class model that provides self-managed "created" and
     "modified" fields, which are indexed in the database for optimized querying.
     """
+
     created = AutoCreatedField(_("created"), db_index=True)
     modified = AutoLastModifiedField(_("modified"), db_index=True)
 
@@ -29,6 +32,7 @@ class AbstractBaseModel(IndexedTimeStampedModel):
     Abstract base class model that provides a UUID primary key along with
     "created" and "modified" fields from IndexedTimeStampedModel.
     """
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     class Meta:

@@ -14,5 +14,6 @@ class CommentsConfig(AppConfig):
     """
     Configuration class for the Comments app.
     """
+
     default_auto_field = "django.db.models.BigAutoField"
     name = "comments"

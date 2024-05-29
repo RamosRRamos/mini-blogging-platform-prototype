@@ -14,9 +14,9 @@ from django.urls import reverse
 
 from common.utils.tests import TestCaseUtils
 from model_bakery import baker
+from posts.models import Post
 from rest_framework.test import APITestCase
 
-from posts.models import Post
 from ..models import Comment
 
 

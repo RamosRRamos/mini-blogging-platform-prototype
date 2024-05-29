@@ -18,6 +18,7 @@ class IndexView(generic.TemplateView):
     """
     View for rendering the index HTML page.
     """
+
     template_name = "common/index.html"
 
 
@@ -25,6 +26,7 @@ class RestViewSet(viewsets.ViewSet):
     """
     ViewSet for handling REST API requests.
     """
+
     serializer_class = MessageSerializer
 
     @extend_schema(

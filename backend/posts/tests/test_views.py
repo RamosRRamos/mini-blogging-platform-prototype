@@ -11,10 +11,13 @@ These tests cover the following actions:
 """
 
 from uuid import UUID
+
 from django.urls import reverse
+
 from common.utils.tests import TestCaseUtils
 from model_bakery import baker
 from rest_framework.test import APITestCase
+
 from ..models import Post
 
 

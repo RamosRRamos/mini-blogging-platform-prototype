@@ -8,5 +8,5 @@ Routes:
 """
 
 routes = [
-    {"regex": r"", "viewset": '', "basename": ""},
+    {"regex": r"", "viewset": "", "basename": ""},
 ]

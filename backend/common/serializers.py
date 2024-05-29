@@ -10,4 +10,5 @@ class MessageSerializer(serializers.Serializer):
     """
     Serializer to validate and serialize a message.
     """
+
     message = serializers.CharField()

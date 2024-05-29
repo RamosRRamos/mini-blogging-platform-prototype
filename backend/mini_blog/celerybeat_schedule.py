@@ -13,6 +13,7 @@ Classes:
 
 from celery.schedules import crontab
 
+
 CELERYBEAT_SCHEDULE = {
     # Internal tasks
     "clearsessions": {

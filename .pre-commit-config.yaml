@@ -29,6 +29,12 @@ repos:
         args: [--fix]
       # Run the formatter.
       - id: ruff-format
+  - repo: https://github.com/PyCQA/bandit
+    # Bandit version.
+    rev: "1.7.0"
+    hooks:
+      # Run the Security analyzer.
+      - id: bandit
   - repo: local
     hooks:
       - id: eslint

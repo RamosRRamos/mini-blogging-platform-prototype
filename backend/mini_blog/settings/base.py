@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "django_guid",
     "common",
     "users",
+    "posts",
+    "comments",
 ]
 
 MIDDLEWARE = [

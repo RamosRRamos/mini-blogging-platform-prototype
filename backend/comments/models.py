@@ -16,6 +16,7 @@ class Comment(AbstractBaseModel):
     """
     Model representing a comment on a post.
     """
+
     post = models.ForeignKey("posts.Post", on_delete=models.CASCADE)
     author = models.ForeignKey("users.User", on_delete=models.CASCADE)
     content = models.TextField()

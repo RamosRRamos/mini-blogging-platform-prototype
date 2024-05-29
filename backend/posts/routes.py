@@ -9,6 +9,7 @@ Routes:
 
 from .views import PostViewSet
 
+
 routes = [
     {
         "regex": r"posts",
