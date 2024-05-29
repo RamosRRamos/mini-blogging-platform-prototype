@@ -1,18 +1,19 @@
+"""
+Module: serializers
+
+This module contains the CommentSerializer class for serializing and deserializing Comment objects.
+
+Classes:
+    - CommentSerializer: Serializer class for Comment model.
+"""
+
 from rest_framework import serializers
+from .models import Comment
 
-from .models import User
-
-
-class UserSerializer(serializers.ModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
+    """
+    Serializer class for Comment model.
+    """
     class Meta:
-        model = User
-        fields = [  # noqa: RUF012
-            "id",
-            "email",
-            "is_active",
-            "is_staff",
-            "is_superuser",
-            "created",
-            "modified",
-            "last_login",
-        ]
+        model = Comment
+        fields = "__all__"

@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.urls import include, path
 
 import django_js_reverse.views
+from django.views.generic import RedirectView
+
 from common.routes import routes as common_routes
 from drf_spectacular.views import (
     SpectacularAPIView,
@@ -10,11 +12,13 @@ from drf_spectacular.views import (
 )
 from rest_framework.routers import DefaultRouter
 from users.routes import routes as users_routes
+from posts.routes import routes as posts_routes
+from comments.routes import routes as comments_routes
 
 
 router = DefaultRouter()
 
-routes = common_routes + users_routes
+routes = common_routes + users_routes + posts_routes + comments_routes
 for route in routes:
     router.register(route["regex"], route["viewset"], basename=route["basename"])
 
@@ -37,3 +41,5 @@ urlpatterns = [
         name="redoc",
     ),
 ]
+
+handler404 = RedirectView.as_view(url='/', permanent=False)

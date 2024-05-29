@@ -1,3 +1,8 @@
+"""
+Module: views
+Views for handling requests and generating responses.
+"""
+
 from django.views import generic
 
 from drf_spectacular.utils import OpenApiExample, extend_schema
@@ -10,10 +15,16 @@ from .serializers import MessageSerializer
 
 
 class IndexView(generic.TemplateView):
+    """
+    View for rendering the index HTML page.
+    """
     template_name = "common/index.html"
 
 
 class RestViewSet(viewsets.ViewSet):
+    """
+    ViewSet for handling REST API requests.
+    """
     serializer_class = MessageSerializer
 
     @extend_schema(
@@ -38,6 +49,9 @@ class RestViewSet(viewsets.ViewSet):
         url_path="rest-check",
     )
     def rest_check(self, request):
+        """
+        Endpoint to check if the REST API is working.
+        """
         serializer = self.serializer_class(
             data={
                 "message": "This message comes from the backend. "

@@ -1,3 +1,12 @@
+"""
+Module: celery_tasks
+
+This module initializes Celery for the mini_blog project, configuring tasks, schedules, and autodiscovery of tasks.
+
+Classes:
+    - Celery: Celery application for managing tasks.
+"""
+
 import os
 import sys
 
@@ -7,7 +16,6 @@ from celery import Celery
 from decouple import config
 
 from .celerybeat_schedule import CELERYBEAT_SCHEDULE
-
 
 settings_module = config("DJANGO_SETTINGS_MODULE", default=None)
 if settings_module is None:

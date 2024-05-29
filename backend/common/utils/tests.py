@@ -1,3 +1,14 @@
+"""
+Module: tests
+
+This module contains utility classes and test cases for testing API endpoints.
+
+Classes:
+    - TestCaseUtils: Utility class providing common assertion methods and setup for tests.
+    - TestGetRequiresAuthenticatedUser: Test case for ensuring that GET requests require authentication.
+    - TestAuthGetRequestSuccess: Test case for successful authenticated GET requests.
+"""
+
 from django.test import TestCase
 from django.urls import reverse
 
@@ -6,6 +17,10 @@ from rest_framework.test import APIClient
 
 
 class TestCaseUtils(TestCase):
+    """
+    Utility class providing common assertion methods and setup for tests.
+    """
+
     def setUp(self):
         self._user_password = "123456"
         self.user = baker.prepare("users.User", email="user@email.com")
@@ -56,13 +71,21 @@ class TestCaseUtils(TestCase):
         self.assertEqual(response.status_code, 404)
 
 
-class TestGetRequiresAuthenticatedUser:
+class TestGetRequiresAuthenticatedUser(TestCaseUtils):
+    """
+    Test case for ensuring that GET requests require authentication.
+    """
+
     def test_get_requires_authenticated_user(self):
         response = self.client.get(self.view_url)
         self.assertResponse403(response)
 
 
-class TestAuthGetRequestSuccess:
+class TestAuthGetRequestSuccess(TestCaseUtils):
+    """
+    Test case for successful authenticated GET requests.
+    """
+
     def test_auth_get_success(self):
         response = self.auth_client.get(self.view_url)
         self.assertResponse200(response)

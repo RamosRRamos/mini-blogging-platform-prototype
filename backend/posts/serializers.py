@@ -1,18 +1,22 @@
+"""
+Serializer for the Post model.
+
+This serializer handles the serialization and deserialization of Post objects,
+enabling their conversion to and from JSON format for API interactions.
+"""
+
 from rest_framework import serializers
+from .models import Post
 
-from .models import User
 
+class PostSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Post model.
 
-class UserSerializer(serializers.ModelSerializer):
+    This serializer automatically generates fields based on the Post model.
+    It includes all the fields of the model for comprehensive data handling.
+    """
+
     class Meta:
-        model = User
-        fields = [  # noqa: RUF012
-            "id",
-            "email",
-            "is_active",
-            "is_staff",
-            "is_superuser",
-            "created",
-            "modified",
-            "last_login",
-        ]
+        model = Post
+        fields = "__all__"
