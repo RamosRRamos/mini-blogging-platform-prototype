@@ -309,16 +309,16 @@ Feel free to contribute by creating poetrys runs to fill in the Makefile command
 - Run de make command to run the project: `make docker_up`
 
 
-
-When you run make docker_up, Docker spawns several containers needed for the application to work, 
-including containers for the frontend, backend and database. 
-Each of these containers will have its own port to communicate with the host.
-
-For example, the container that hosts the React application uses port 3000 to serve its assets. 
-However, when you try to access the application in the browser by typing http://localhost:3000, 
-you may find a blank page with the error “Cannot GET /”. 
-This is because, in the default configuration of this project, the main application is served by the Django container, 
-which runs on port 8000.
+> [!NOTE]
+> When you run make docker_up, Docker spawns several containers needed for the application to work, 
+> including containers for the frontend, backend and database. 
+> Each of these containers will have its own port to communicate with the host.
+>
+> For example, the container that hosts the React application uses port 3000 to serve its assets. 
+> However, when you try to access the application in the browser by typing http://localhost:3000, 
+> you may find a blank page with the error “Cannot GET /”. 
+> This is because, in the default configuration of this project, the main application is served by the Django container, 
+> which runs on port 8000.
 
 
 🔥🔥🔥 Now you can access the project at http://localhost:8000 in your browser. 🔥🔥🔥
