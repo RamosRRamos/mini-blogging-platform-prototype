@@ -261,7 +261,6 @@ some of which can be skipped if you do use a container manager.
 - `npm install`
 
 
-
 Make sure that all the prerequisites are correctly installed and working 
 before proceeding with the configuration and execution of the project.
 
@@ -350,21 +349,23 @@ which runs on port 8000.
 - Run the command `npm run openapi-ts` to generate the TypeScript client API.
 - Use this command to generate the TypeScript client API from the backend code using OpenAPI schema
 - Run the command `npm run dev` to start the frontend server.
-  - npm run dev is a custom command defined in the project configuration file package.json 
-  - This command is designed to start a development server that serves the assets of the 
-    frontend part of the application.
-  - In the context of the project, the purpose of running npm run dev is not to start the 
-    React application as you normally would when developing a React application. 
-  - Instead, it serves the assets of the frontend part of the application, such as the JavaScript files, 
-    CSS and other static dependencies. 
-  - These assets will be consumed by the django-webpack-loader, a tool in the Django backend that allows you to easily 
-    integrate the assets from the frontend of the React application into the Django application.
-  - So when you run npm run dev, don't expect to see the React application running on localhost:3000 as 
-    you normally would during React development. 
-  - Instead, the frontend assets are served to be consumed by the django-webpack-loader, 
-    which will incorporate them into your Django templates. 
-  - If you try to access localhost:3000 after running npm run dev, 
-    you'll probably see an error in your browser, which is to be expected due to the behavior described above.
+
+> [!NOTE]
+> - npm run dev is a custom command defined in the project configuration file package.json 
+>  - This command is designed to start a development server that serves the assets of the 
+>    frontend part of the application.
+> - In the context of the project, the purpose of running npm run dev is not to start the 
+>  React application as you normally would when developing a React application. 
+>  - Instead, it serves the assets of the frontend part of the application, such as the JavaScript files, 
+>    CSS and other static dependencies. 
+>  - These assets will be consumed by the django-webpack-loader, a tool in the Django backend that allows you to easily 
+>    integrate the assets from the frontend of the React application into the Django application.
+>  - So when you run npm run dev, don't expect to see the React application running on localhost:3000 as 
+>    you normally would during React development. 
+>  - Instead, the frontend assets are served to be consumed by the django-webpack-loader, 
+>    which will incorporate them into your Django templates. 
+>  - If you try to access localhost:3000 after running npm run dev, 
+>    you'll probably see an error in your browser, which is to be expected due to the behavior described above.
 
 🔥🔥🔥 Now you can access the project at http://localhost:8000 in your browser. 🔥🔥🔥
 
@@ -386,6 +387,27 @@ which runs on port 8000.
 - MailHog is a tool for testing email sending in development environments.
 - To start, we need use docker to run the MailHog container.
 - You can use this link to see the MailHog documentation: [MailHog](https://github.com/mailhog/MailHog#installation)
+
+### Testing
+
+- To run the tests, you can use the following command: `poetry run pytest`
+- This command will run the tests in the project and display the results in the terminal.
+- You can also run specific tests by providing the path to the test file or test case you want to run.
+- For example: `poetry run pytest backend/tests/test_views.py`
+- This command will run the tests in the test_views.py file and display the results in the terminal.
+- To use django test runner, you can use the following command: `poetry run python manage.py test --keepdb --parallel`
+- This command will run the tests in the project using the Django test runner and display the results in the terminal.
+- You can use make to run the tests in the project: `make test` you need to pass a path to the module you want to test.
+- Example: `make test someapp.tests.test_views`
+- You can use another make command to run the tests in the project: `make test_all_modules` you not need to 
+- pass a path to the module you want to test.
+
+### API Schema and Client Generation
+- You can utilize the DRF-Spectacular tool to generate an OpenAPI schema from our Django Rest Framework (DRF) API. 
+- This schema serves as the foundation for various tasks such as generating client code and creating comprehensive API documentation.
+- You can access the API documentation pages at the following URLs:
+- Swagger UI: http://localhost:8000/api/schema/swagger-ui/
+- ReDoc: http://localhost:8000/api/schema/redoc/
 
 
 

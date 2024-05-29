@@ -85,6 +85,10 @@ clean:
 	@find . -name "*.pyc" -exec rm -rf {} \;
 	@find . -name "__pycache__" -delete
 
+test_all_modules:
+	poetry run backend/manage.py test backend/ --parallel --keepdb
+
+
 test:
 	poetry run backend/manage.py test backend/ $(ARG) --parallel --keepdb
 
