@@ -17,9 +17,6 @@ chmod +x backend/manage.py
 
 echo "-----> Running manage.py check --deploy --fail-level WARNING"
 
-ls
-
-poetry run backend/manage.py check --deploy --fail-level WARNING
 
 if [ -n "$ENABLE_DJANGO_COLLECTSTATIC" ] && [ "$ENABLE_DJANGO_COLLECTSTATIC" == 1 ]; then
     echo "-----> Running collectstatic"
