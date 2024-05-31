@@ -15,7 +15,7 @@ echo "-----> Poetry done"
 echo "-----> add permission to manage.py"
 chmod +x backend/manage.py
 
-echo "-----> Running manage.py check --deploy --fail-level WARNING"
+echo "-----> Running manage.py check --deploy --fail-level WARNING (ignored)"
 
 
 if [ -n "$ENABLE_DJANGO_COLLECTSTATIC" ] && [ "$ENABLE_DJANGO_COLLECTSTATIC" == 1 ]; then
