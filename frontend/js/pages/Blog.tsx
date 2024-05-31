@@ -1,5 +1,5 @@
 // src/pages/Blog.tsx
-import React from 'react';
+import React from "react";
 
 const Blog: React.FC = () => {
   return (

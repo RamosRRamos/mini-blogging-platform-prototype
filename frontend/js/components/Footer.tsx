@@ -1,46 +1,77 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import {Link} from "react-router-dom";
+import React from "react";
+import "../../sass/components/footer.scss";
+import { Container, Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-light text-dark mt-5">
-      <Container>
+    <footer className="bg-light text-light mt-5">
+      <Container className="full-width-footer" fluid>
         <Row className="py-4">
-          <Col md={4}>
+          <Col md={4} className="text-center">
             <h5>Mini Blog</h5>
-            <p>Este é um exemplo de um footbar em React usando Bootstrap.</p>
+            <p>Start your blog</p>
           </Col>
-          <Col md={4}>
+          <Col md={4} className="text-center">
             <h5>Navigation</h5>
             <ul className="list-unstyled">
-              <li><Link to="/home" className="text-dark">Home</Link></li>
-              <li><Link to="/home" className="text-dark">Posts</Link></li>
-              <li><Link to="/home" className="text-dark">Config</Link></li>
-              <li><Link to="/about" className="text-dark">about</Link></li>
-              <li><Link to="/home" className="text-dark">Logout</Link></li>
+              <li>
+                <Link className="text-light" to="/home">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link className="text-light" to="/home">
+                  Posts
+                </Link>
+              </li>
+              <li>
+                <Link className="text-light" to="/home">
+                  Config
+                </Link>
+              </li>
+              <li>
+                <Link className="text-light" to="/about">
+                  about
+                </Link>
+              </li>
+              <li>
+                <Link className="text-light" to="/home">
+                  Logout
+                </Link>
+              </li>
             </ul>
           </Col>
-          <Col md={4}>
-
+          <Col md={4} className="text-center">
             <h5>Social media</h5>
-            <ul className="list-unstyled d-flex">
-              <li><a href="#facebook" className="text-dark me-3">Linkedin</a></li>
-              <li><a href="#twitter" className="text-dark me-3">Github</a></li>
-
+            <ul className="list-unstyled  text-center">
+              <li>
+                <a className="text-light me-3" href="#facebook">
+                  Linkedin
+                </a>
+              </li>
+              <li>
+                <a className="text-light me-3" href="#twitter">
+                  Github
+                </a>
+              </li>
             </ul>
           </Col>
         </Row>
+      </Container>
+      <Container className="full-width-footer" fluid>
         <Row className="pt-3 border-top">
           <Col className="text-center">
-            <p>&copy; 2024 Mini Blog. All rights reserved. <br/>
-              Powered by <a href="https://github.com/RamosRRamos"> Wesley R. L</a>
+            <p>
+              &copy; 2024 Mini Blog. All rights reserved. <br />
+              Powered by{" "}
+              <a href="https://github.com/RamosRRamos"> Wesley R. L</a>
             </p>
           </Col>
         </Row>
       </Container>
     </footer>
   );
-}
+};
 
 export default Footer;

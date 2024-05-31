@@ -1,0 +1,80 @@
+// Variáveis
+$background-color: #1a1a1a;
+$container-background: #2c2c2c;
+$form-control-background: #000;
+$form-control-focus-background: #444;
+$btn-primary-background: #1da1f2;
+$btn-primary-hover-background: #0d8bd7;
+$text-color: #fff;
+
+// Estilos
+html, body, #react-app {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.full-width {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $background-color;
+  color: $text-color;
+}
+
+.login-form {
+  background-color: $container-background;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  .form-control {
+    background-color: $form-control-background;
+    color: $text-color;
+    border: none;
+
+    &:focus {
+      background-color: $form-control-focus-background;
+      color: $text-color;
+      border: none;
+      box-shadow: none;
+    }
+  }
+
+  .btn-primary {
+    background-color: $btn-primary-background;
+    border: none;
+
+    &:hover {
+      background-color: $btn-primary-hover-background;
+    }
+  }
+}
+
+.or-text {
+  font-size: 16px;
+  color: #666; /* ou qualquer cor que você preferir */
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.top-line,
+.bottom-line {
+  border: 0;
+  border-top: 1px solid #ccc; /* ou qualquer cor que você preferir */
+}
+
+.top-line {
+  width: 100%;
+}
+
+.bottom-line {
+  width: 100%;
+}

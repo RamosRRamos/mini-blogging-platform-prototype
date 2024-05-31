@@ -1,135 +1,300 @@
-import {useState} from "react";
+import {format} from "date-fns";
+import React, {useEffect, useState} from "react";
 import {Button, Card, Col, Container, Row} from "react-bootstrap";
+import Form from "react-bootstrap/Form";
+import isAuthenticated from "utils/isAuthenticated";
+import {ApiService, Post} from "../api";
+import "../../sass/pages/home.scss";
 
 
 const Home = () => {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
 
+  useEffect(() => {
+    // Chamada para obter a lista de posts assim que o componente for montado
+    ApiService.apiPostsList().then((response) => {
+      console.log(response);
+      setPosts(response.results);
+      console.log(posts);
+    });
+  }, []); // Executa somente uma vez, após a montagem do componente
 
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
 
-  const user = {
-    name: "John Doe",
-    email: "",
-    posts: [{id: 1, title: "Post 1"}, {id: 2, title: "Post 2"}],
+    const data = {
+      requestBody: {
+        id: "",
+        title,
+        content,
+        created: "",
+        modified: "",
+        author: 0,
+        author_name: "",
+        comments: [],
+      },
+    };
+
+    try {
+      const response = await ApiService.apiPostsCreate(data);
+      console.log("Post created successfully:", response);
+      // Limpar o formulário após o envio bem-sucedido
+      setTitle("");
+      setContent("");
+
+      // Após criar o post, atualize a lista de posts
+      ApiService.apiPostsList().then((response) => {
+        setPosts(response.results);
+      });
+    } catch (error) {
+      console.error("Error creating post:", error);
+    }
   };
 
-  const title = "Título do Post";
-  const content =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut est quis massa tincidunt lacinia ac eget tellus. Nullam eu elit et risus varius pellentesque. Sed pharetra felis in mauris scelerisque, vitae consectetur libero rhoncus. Vivamus venenatis ex at purus sagittis interdum. Duis vitae elit id tellus iaculis vehicula. Integer in ipsum vitae justo feugiat dictum. Suspendisse potenti. Proin rutrum, nulla eget finibus efficitur, nisl arcu posuere tortor, et malesuada sapien odio eget purus. Donec ut turpis ac velit volutpat posuere. In vel elit non metus hendrerit tempus. Sed in mi augue.";
-  const author = "Autor do Post";
-  const createdAt = "01 de janeiro de 2023";
-  const lastModified = "05 de janeiro de 2023";
-  const comments = [
-    {
-      text: "Comentário 1",
-      author: "Autor do Comentário 1",
-      createdAt: "02 de janeiro de 2023",
-    },
-    {
-      text: "Comentário 2",
-      author: "Autor do Comentário 2",
-      createdAt: "03 de janeiro de 2023",
-    },
-    {
-      text: "Comentário 3",
-      author: "Autor do Comentário 3",
-      createdAt: "04 de janeiro de 2023",
-    },
-  ];
+  const commentIsAuthenticated = () => {
+    if (isAuthenticated) {
+      return (
+        <Form onSubmit={handleSubmit}>
+          <Form.Group controlId="formContent">
+            <Form.Label/>
+            <Form.Control
+              as="textarea"
+              placeholder="Enter your reply"
+              rows={2}
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
+          </Form.Group>
+          <div className="text-end">
+            <Button className="mt-3" type="submit">
+              Reply
+            </Button>
+          </div>
+        </Form>
+      );
+    }
+    return (
+      <p>
+        Please <a href="/login">login</a> to comment.
+      </p>
+    );
+  };
+
+  const postIsAuthenticated = () => {
+    if (isAuthenticated) {
+      return (
+        <Form onSubmit={handleSubmit}>
+          <Form.Group controlId="formTitle">
+            <Form.Label>Title</Form.Label>
+            <Form.Control
+              placeholder="Enter title"
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group controlId="formContent">
+            <Form.Label>Content</Form.Label>
+            <Form.Control
+              as="textarea"
+              placeholder="Enter content"
+              rows={3}
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
+          </Form.Group>
+          <Button className="mt-3" type="submit">
+            Create a post
+          </Button>
+        </Form>
+      );
+    }
+    return (
+      <p>
+        Please <a href="/login">login</a> to create a post.
+      </p>
+    );
+  };
+
+  const yourLatestPostsIsAuthenticated = () => {
+    if (isAuthenticated) {
+      return <></>;
+    }
+    return (
+      <p>
+        Please <a href="/login">login</a> to see your latest posts .
+      </p>
+    );
+  };
+
+  const commentIsAuthenticatedManager = () => {
+    if (isAuthenticated) {
+      return (
+        <Form onSubmit={handleSubmit}>
+          <Form.Group controlId="formTitle">
+            <Form.Label>Title</Form.Label>
+            <Form.Control
+              placeholder="Enter title"
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group controlId="formContent">
+            <Form.Label>Content</Form.Label>
+            <Form.Control
+              as="textarea"
+              placeholder="Enter content"
+              rows={3}
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
+          </Form.Group>
+          <Button className="mt-3" type="submit">
+            Create a post
+          </Button>
+        </Form>
+      );
+    }
+    return (
+      <p>
+        Please <a href="/login">login</a> to manage your comments.
+      </p>
+    );
+  };
+
+  const postIsAuthenticatedManager = () => {
+    if (isAuthenticated) {
+      return <Button>Manage Posts</Button>;
+    }
+    return (
+      <p>
+        Please <a href="/login">login</a> to manage your posts.
+      </p>
+    );
+  };
+
+  const renderPosts = () => {
+    return posts.map((post) => (
+      <Card className="mb-3">
+        <Card.Body>
+          <div className="d-flex align-items-center mb-3">
+            <div className="avatar-placeholder me-2">
+              <span className="avatar-letter">
+                {post.author_name.slice(0, 2).toUpperCase()}
+              </span>
+            </div>
+            <div>
+              <p className="mb-0">
+                <small className="text-muted">{post.author_name}</small>
+              </p>
+              <p className="mb-0">
+                <small className="text-muted">
+                  {format(new Date(post.created), "dd/MM/yyyy")}
+                </small>
+              </p>
+            </div>
+          </div>
+          <h4 className="card-title">{post.title}</h4>
+          <p className="card-text">{post.content}</p>
+          <hr/>
+          <p className="mb-0">
+            <small className="text-muted">
+              Last Modified: {format(new Date(post.modified), "dd/MM/yyyy")}
+            </small>
+          </p>
+        </Card.Body>
+        <Col className="m-3">
+          <Form onSubmit={handleSubmit}>{commentIsAuthenticated()}</Form>
+        </Col>
+        <ul className="list-group list-group-flush">
+          {post.comments.map((comment, index) => (
+            <li key={index} className="list-group-item mt-3 mb-3">
+              <p>{comment.content}</p>
+              <div className="d-flex align-items-center">
+                <div className="avatar-placeholder me-2">
+                  <span className="avatar-letter">
+                    {comment.author_name.slice(0, 2).toUpperCase()}
+                  </span>
+                </div>
+                <div>
+                  <p className="mb-0">
+                    <small className="text-muted">
+                      By: {comment.author_name}
+                    </small>
+                  </p>
+                  <p className="mb-0">
+                    <small className="text-muted">
+                      Posted At:{" "}
+                      {format(new Date(comment.created), "dd/MM/yyyy")}
+                    </small>
+                  </p>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+        {/* Adicione aqui a lista de comentários se necessário */}
+      </Card>
+    ));
+  };
 
   return (
-    <>
-      <Container fluid>
+    <Container className="full-home" fluid>
+      <Row className="mt-3 mb-3"/>
 
-        <Row className="mt-3 mb-3">
-          <Col>
-            <h1>Dashboard</h1>
-          </Col>
-        </Row>
-
-        <Row className="mt-3 mb-3">
-          <Col md={4}>
-            <Card>
-              <Card.Body>
-                <Card.Title>Create a new Post</Card.Title>
-                <Card.Text>Start a new post</Card.Text>
-                <Button variant="success">
-                  Create a post
-                </Button>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col md={4}>
+      <Row className="mt-3 mb-3">
+        <Col md={4}>
+          <Col md={12}>
             <Card>
               <Card.Body>
                 <Card.Title>Manage your posts</Card.Title>
                 <Card.Text>Manage your blog posts here.</Card.Text>
-                <Button variant="success">Manage Posts</Button>
+                {postIsAuthenticatedManager()}
               </Card.Body>
             </Card>
           </Col>
-          <Col md={4}>
+          <Col className="mt-3" md={12}>
             <Card>
               <Card.Body>
                 <Card.Title>Comments</Card.Title>
                 <Card.Text>View and moderate comments on your blog.</Card.Text>
-                <Button variant="success">Manage Comments</Button>
+                {commentIsAuthenticatedManager()}
               </Card.Body>
             </Card>
           </Col>
-        </Row>
+        </Col>
 
-        <Row className="mt-3 mb-3">
-          <Col md={4}>
-            <Card>
-              <Card.Body>
-                <Card.Title>Últimos Posts</Card.Title>
-                <Card.Text>
-                  <ul>
-                    {user.posts.map((post) => (
-                      <li key={post.id}>{post.title}</li>
-                    ))}
-                  </ul>
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col md={8}>
-            <Card className="mb-3">
-              <Card.Body>
-                <h2 className="card-title">{title}</h2>
-                <p className="card-text">{content}</p>
-                <p className="card-text">
-                  <small className="text-muted">Author: {author}</small>
-                </p>
-                <p className="card-text">
-                  <small className="text-muted">Created At: {createdAt}</small>
-                </p>
-                <p className="card-text">
-                  <small className="text-muted">Last Modified: {lastModified}</small>
-                </p>
-              </Card.Body>
-              <ul className="list-group list-group-flush">
-                <li className="list-group-item bg-light mt-3 mb-3">
-                  <h3>Comments</h3>
-                </li>
-                {comments.map((comment, index) => (
-                  <li key={index} className="list-group-item mt-3 mb-3">
-                    <p>{comment.text}</p>
-                    <p className="card-text">
-                      <small className="text-muted">By: {comment.author}</small>
-                    </p>
-                    <p className="card-text">
-                      <small className="text-muted">Posted At: {comment.createdAt}</small>
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-    </>
+        <Col md={8}>
+          <Card>
+            <Card.Body>
+              <Card.Title>Create a new Post</Card.Title>
+              {postIsAuthenticated()}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+
+      <Row className="mt-3 mb-3">
+        <Col md={4}>
+          <Card>
+            <Card.Body>
+              <Card.Title className="latest-posts-title">
+                Your Latest Posts
+              </Card.Title>
+              <Card.Text>
+                <ul className="latest-posts-list">
+                  {yourLatestPostsIsAuthenticated()}
+                </ul>
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={8}>{renderPosts()}</Col>
+      </Row>
+    </Container>
   );
 };
-
 export default Home;

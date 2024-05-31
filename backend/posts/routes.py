@@ -11,9 +11,7 @@ from .views import PostViewSet
 
 
 routes = [
-    {
-        "regex": r"posts",
-        "viewset": PostViewSet,
-        "basename": "post",
-    },
+    {"regex": r"posts", "viewset": PostViewSet, "basename": "post"},
+    {"regex": r"posts/(?P<slug>.+)", "viewset": PostViewSet, "basename": "post_slug"},
+
 ]

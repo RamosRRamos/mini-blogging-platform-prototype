@@ -24,6 +24,9 @@ class Post(AbstractBaseModel):
         is_draft (bool): Flag indicating whether the post is a draft or published.
     """
 
+    class Meta:
+        ordering = ["-created"]
+
     title = models.CharField(max_length=255)
     content = models.TextField()
     author = models.ForeignKey("users.User", on_delete=models.CASCADE)

@@ -19,7 +19,7 @@ class PostAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         """Define o autor do post como o usuário logado ao salvar."""
-        if not obj.author:
+        if not hasattr(obj, "author"):
             obj.author = request.user
         obj.save()
 
