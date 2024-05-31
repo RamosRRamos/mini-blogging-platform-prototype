@@ -8,8 +8,50 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../../sass/components/navbar.scss";
+import isAuthenticated from "utils/isAuthenticated";
 
 const Navbar = () => {
+
+  const navbarIsAuthenticatedLogin = () => {
+    if (isAuthenticated()) {
+      return (
+        <Button className="ms-2" variant="outline-primary">
+          <Link className="link" to="/logout">
+            Logout
+          </Link>
+        </Button>
+      );
+
+    }
+    else {
+      return (
+        <Button className="ms-2" variant="outline-primary">
+          <Link className="link" to="/">
+            Sign In
+          </Link>
+        </Button>
+      );
+    }
+
+  }
+
+
+  const navbarIsAuthenticatedCreateAccount = () => {
+    if (!isAuthenticated()) {
+      return (
+        <Button className="ms-2" variant="outline-primary">
+          <Link className="link" to="/">
+            Create a Account
+          </Link>
+        </Button>
+      );
+
+    }
+
+  }
+
+
+
   return (
     <Navbar1 className="full-width-navbar" expand="lg">
       <Container>
@@ -31,16 +73,8 @@ const Navbar = () => {
           </Form>
 
           <div>
-            <Button className="ms-2" variant="outline-primary">
-              <Link className="link" to="/">
-                Sign In
-              </Link>
-            </Button>
-            <Button className="ms-2" variant="outline-primary">
-              <Link className="link" to="/">
-                Create a Account
-              </Link>
-            </Button>
+            {navbarIsAuthenticatedLogin()}
+            {navbarIsAuthenticatedCreateAccount()}
           </div>
         </Navbar1.Collapse>
       </Container>

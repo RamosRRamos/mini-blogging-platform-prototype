@@ -18,12 +18,11 @@ import Blog from "pages/Blog";
 import Home from "pages/Home";
 import Login from "pages/Login";
 import Profile from "pages/Profile";
+import Logout from "pages/Logout";
 
 OpenAPI.interceptors.request.use((request) => {
   const cookies = cookie.parse(document.cookie);
   const { csrftoken } = cookies;
-  console.log("CSRF Token from cookies:", csrftoken);
-
   let user;
   if (request.headers && csrftoken) {
     request.headers["X-CSRFTOKEN"] = csrftoken;
@@ -31,8 +30,6 @@ OpenAPI.interceptors.request.use((request) => {
     if (user) {
       request.headers.Authorization = `${user}`;
     }
-
-    console.log("Request Headers with CSRF Token:", request.headers);
   } else {
     console.warn("CSRF Token not found or request headers are undefined");
   }
@@ -47,12 +44,14 @@ Sentry.init({
 const AppWrapper = () => {
   const location = useLocation();
   const isLoginRoute = location.pathname === "/";
+  const isLogoutRoute = location.pathname === "/logout";
 
   return (
     <>
-      {!isLoginRoute && <Navbar />}
+      {!isLoginRoute && !isLogoutRoute && <Navbar />}
       <Routes>
         <Route element={<Login />} path="/" />
+        <Route element={<Logout />} path="/logout" />
         <Route element={<Home />} path="home" />
         <Route element={<Profile />} path="profile/:userSlug" />
         <Route element={<About />} path="about" />

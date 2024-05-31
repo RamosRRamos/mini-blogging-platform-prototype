@@ -53,19 +53,9 @@ export type PaginatedUserList = {
  */
 export type PatchedUser = {
   readonly id?: number;
+  name?: string | null;
+  slug?: string;
   email?: string;
-  /**
-   * Designates whether this user should be treated as active. Unselect this instead of deleting accounts.
-   */
-  is_active?: boolean;
-  /**
-   * Designates whether the user can log into this admin site.
-   */
-  is_staff?: boolean;
-  /**
-   * Designates that this user has all permissions without explicitly assigning them.
-   */
-  is_superuser?: boolean;
   readonly created?: string;
   readonly modified?: string;
   last_login?: string | null;
@@ -94,19 +84,9 @@ export type Post = {
  */
 export type User = {
   readonly id: number;
+  name?: string | null;
+  slug: string;
   email: string;
-  /**
-   * Designates whether this user should be treated as active. Unselect this instead of deleting accounts.
-   */
-  is_active?: boolean;
-  /**
-   * Designates whether the user can log into this admin site.
-   */
-  is_staff?: boolean;
-  /**
-   * Designates that this user has all permissions without explicitly assigning them.
-   */
-  is_superuser?: boolean;
   readonly created: string;
   readonly modified: string;
   last_login?: string | null;

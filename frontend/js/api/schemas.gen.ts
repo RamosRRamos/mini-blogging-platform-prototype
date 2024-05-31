@@ -173,25 +173,20 @@ export const $PatchedUser = {
       type: "integer",
       readOnly: true,
     },
+    name: {
+      type: "string",
+      nullable: true,
+      maxLength: 255,
+    },
+    slug: {
+      type: "string",
+      maxLength: 255,
+      pattern: "^[-a-zA-Z0-9_]+$",
+    },
     email: {
       type: "string",
       format: "email",
       maxLength: 255,
-    },
-    is_active: {
-      type: "boolean",
-      description:
-        "Designates whether this user should be treated as active. Unselect this instead of deleting accounts.",
-    },
-    is_staff: {
-      type: "boolean",
-      description: "Designates whether the user can log into this admin site.",
-    },
-    is_superuser: {
-      type: "boolean",
-      title: "Superuser status",
-      description:
-        "Designates that this user has all permissions without explicitly assigning them.",
     },
     created: {
       type: "string",
@@ -278,25 +273,20 @@ export const $User = {
       type: "integer",
       readOnly: true,
     },
+    name: {
+      type: "string",
+      nullable: true,
+      maxLength: 255,
+    },
+    slug: {
+      type: "string",
+      maxLength: 255,
+      pattern: "^[-a-zA-Z0-9_]+$",
+    },
     email: {
       type: "string",
       format: "email",
       maxLength: 255,
-    },
-    is_active: {
-      type: "boolean",
-      description:
-        "Designates whether this user should be treated as active. Unselect this instead of deleting accounts.",
-    },
-    is_staff: {
-      type: "boolean",
-      description: "Designates whether the user can log into this admin site.",
-    },
-    is_superuser: {
-      type: "boolean",
-      title: "Superuser status",
-      description:
-        "Designates that this user has all permissions without explicitly assigning them.",
     },
     created: {
       type: "string",
@@ -314,5 +304,5 @@ export const $User = {
       nullable: true,
     },
   },
-  required: ["created", "email", "id", "modified"],
+  required: ["created", "email", "id", "modified", "slug"],
 } as const;
