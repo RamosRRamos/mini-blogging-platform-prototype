@@ -30,7 +30,7 @@ module.exports = (env, argv) => {
       headers: { "Access-Control-Allow-Origin": "*" },
     },
     context: __dirname,
-    entry: ["./frontend/js/index.ts"],
+    entry: ["./frontend/js/index.tsx"],
     output: isDev ? localhostOutput : productionOutput,
     module: {
       rules: [
