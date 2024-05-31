@@ -40,7 +40,7 @@ urlpatterns = [
         SpectacularRedocView.as_view(url_name="schema"),
         name="redoc",
     ),
-    re_path(r"^.*$", include("common.urls")),
+    re_path(r"^.*", include("common.urls")),
 ]
 
 handler404 = RedirectView.as_view(url="/", permanent=False)

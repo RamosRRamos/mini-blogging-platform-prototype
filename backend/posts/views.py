@@ -46,12 +46,17 @@ class PostViewSet(viewsets.ModelViewSet):
         summary="Retrieve a Post",
         description="Retrieves details of a specific post by ID.",
         responses={status.HTTP_200_OK: PostSerializer},
+        operation_id="retrieve_post",
+
+
     )
     def retrieve(self, request, *args, **kwargs):
         """
         Handle the retrieval of a specific post by ID.
         """
         return super().retrieve(request, *args, **kwargs)
+
+
 
     @extend_schema(
         summary="List Posts",
