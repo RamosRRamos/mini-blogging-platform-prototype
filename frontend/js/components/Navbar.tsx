@@ -1,38 +1,51 @@
-import React, {useState} from 'react';
-import {Navbar, Nav, Form, FormControl, Button, Container, FormLabel} from 'react-bootstrap';
-import {useNavigate} from "react-router";
-import {ApiService} from "api";
+import {
+  Navbar as Navbar1,
+  Nav,
+  Form,
+  FormControl,
+  Button,
+  Container,
+} from "react-bootstrap";
+import { Link } from "react-router-dom";
+import "../../sass/components/navbar.scss";
 
-const Navbar_Project = () => {
-
-
-
+const Navbar = () => {
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar1 className="full-width-navbar" expand="lg">
       <Container>
-        <Navbar.Brand href="#home">Home</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-        <Navbar.Collapse id="basic-navbar-nav">
+        <Navbar1.Brand href="#home">Home</Navbar1.Brand>
+        <Navbar1.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar1.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="#home">Posts</Nav.Link>
             <Nav.Link href="#link">Configs</Nav.Link>
           </Nav>
           <Form className="d-flex">
             <FormControl
-              type="search"
-              placeholder="Search"
-              className="me-2"
               aria-label="Search"
+              className="me-2"
+              placeholder="Search"
+              type="search"
             />
             <Button variant="outline-success">Search</Button>
           </Form>
 
-          <Button variant="outline-primary" className="ms-2">Sign In</Button>
-          <Button variant="outline-primary" className="ms-2">Create a Account</Button>
-        </Navbar.Collapse>
+          <div>
+            <Button className="ms-2" variant="outline-primary">
+              <Link className="link" to="/">
+                Sign In
+              </Link>
+            </Button>
+            <Button className="ms-2" variant="outline-primary">
+              <Link className="link" to="/">
+                Create a Account
+              </Link>
+            </Button>
+          </div>
+        </Navbar1.Collapse>
       </Container>
-    </Navbar>
+    </Navbar1>
   );
-}
+};
 
-export default Navbar_Project;
+export default Navbar;

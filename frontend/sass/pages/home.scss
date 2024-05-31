@@ -1,0 +1,53 @@
+$background-color: #1a1a1a;
+$container-background: #2c2c2c;
+$form-control-background: #000;
+$form-control-focus-background: #444;
+$btn-primary-background: #1da1f2;
+$btn-primary-hover-background: #0d8bd7;
+$text-color: #fff;
+
+.latest-posts-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 20px;
+}
+
+.latest-posts-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.latest-post-item {
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+}
+
+.latest-post-item:hover {
+  background-color: #e0e0e0;
+}
+
+
+.full-home {
+  width: 95vw;
+
+}
+
+
+.avatar-placeholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #007bff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar-letter {
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+}

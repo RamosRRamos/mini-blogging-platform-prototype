@@ -12,10 +12,10 @@ import type {
   ApiCommentsRetrieveResponse,
   ApiCommentsUpdateData,
   ApiCommentsUpdateResponse,
-  ApiCommentsPartialUpdateData,
-  ApiCommentsPartialUpdateResponse,
   ApiCommentsDestroyData,
   ApiCommentsDestroyResponse,
+  ApiObtainAuthTokenCreateData,
+  ApiObtainAuthTokenCreateResponse,
   ApiPostsListData,
   ApiPostsListResponse,
   ApiPostsCreateData,
@@ -24,10 +24,18 @@ import type {
   ApiPostsRetrieveResponse,
   ApiPostsUpdateData,
   ApiPostsUpdateResponse,
-  ApiPostsPartialUpdateData,
-  ApiPostsPartialUpdateResponse,
   ApiPostsDestroyData,
   ApiPostsDestroyResponse,
+  ApiPostsList2Data,
+  ApiPostsList2Response,
+  ApiPostsCreate2Data,
+  ApiPostsCreate2Response,
+  ApiPostsRetrieve2Data,
+  ApiPostsRetrieve2Response,
+  ApiPostsUpdate2Data,
+  ApiPostsUpdate2Response,
+  ApiPostsDestroy2Data,
+  ApiPostsDestroy2Response,
   ApiRestRestCheckRetrieveResponse,
   ApiUsersListData,
   ApiUsersListResponse,
@@ -41,10 +49,24 @@ import type {
   ApiUsersPartialUpdateResponse,
   ApiUsersDestroyData,
   ApiUsersDestroyResponse,
+  ApiUsersList2Data,
+  ApiUsersList2Response,
+  ApiUsersCreate2Data,
+  ApiUsersCreate2Response,
+  ApiUsersRetrieve2Data,
+  ApiUsersRetrieve2Response,
+  ApiUsersUpdate2Data,
+  ApiUsersUpdate2Response,
+  ApiUsersPartialUpdate2Data,
+  ApiUsersPartialUpdate2Response,
+  ApiUsersDestroy2Data,
+  ApiUsersDestroy2Response,
 } from "./types.gen";
 
 export class ApiService {
   /**
+   * List Comments
+   * Retrieves a list of all comments.
    * @param data The data for the request.
    * @param data.limit Number of results to return per page.
    * @param data.offset The initial index from which to return the results.
@@ -65,6 +87,8 @@ export class ApiService {
   }
 
   /**
+   * Create a Comment
+   * Creates a new comment. Only authenticated users can create comments, and the comment's author is automatically set to the current user.
    * @param data The data for the request.
    * @param data.requestBody
    * @returns Comment
@@ -82,6 +106,8 @@ export class ApiService {
   }
 
   /**
+   * Retrieve a Comment
+   * Retrieves details of a specific comment by ID.
    * @param data The data for the request.
    * @param data.id A UUID string identifying this comment.
    * @returns Comment
@@ -100,6 +126,8 @@ export class ApiService {
   }
 
   /**
+   * Update a Comment
+   * Updates an existing comment. Only the comment's author can update it.
    * @param data The data for the request.
    * @param data.id A UUID string identifying this comment.
    * @param data.requestBody
@@ -121,27 +149,8 @@ export class ApiService {
   }
 
   /**
-   * @param data The data for the request.
-   * @param data.id A UUID string identifying this comment.
-   * @param data.requestBody
-   * @returns Comment
-   * @throws ApiError
-   */
-  public static apiCommentsPartialUpdate(
-    data: ApiCommentsPartialUpdateData,
-  ): CancelablePromise<ApiCommentsPartialUpdateResponse> {
-    return __request(OpenAPI, {
-      method: "PATCH",
-      url: "/api/comments/{id}/",
-      path: {
-        id: data.id,
-      },
-      body: data.requestBody,
-      mediaType: "application/json",
-    });
-  }
-
-  /**
+   * Delete a Comment
+   * Deletes an existing comment. Only the comment's author can delete it.
    * @param data The data for the request.
    * @param data.id A UUID string identifying this comment.
    * @returns void No response body
@@ -160,6 +169,25 @@ export class ApiService {
   }
 
   /**
+   * @param data The data for the request.
+   * @param data.formData
+   * @returns AuthToken
+   * @throws ApiError
+   */
+  public static apiObtainAuthTokenCreate(
+    data: ApiObtainAuthTokenCreateData,
+  ): CancelablePromise<ApiObtainAuthTokenCreateResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/obtain-auth-token/",
+      formData: data.formData,
+      mediaType: "application/x-www-form-urlencoded",
+    });
+  }
+
+  /**
+   * List Posts
+   * Retrieves a list of all posts.
    * @param data The data for the request.
    * @param data.limit Number of results to return per page.
    * @param data.offset The initial index from which to return the results.
@@ -180,6 +208,8 @@ export class ApiService {
   }
 
   /**
+   * Create a Post
+   * Creates a new post. Only authenticated users can create posts, and the post's author is automatically set to the current user.
    * @param data The data for the request.
    * @param data.requestBody
    * @returns Post
@@ -197,6 +227,8 @@ export class ApiService {
   }
 
   /**
+   * Retrieve a Post
+   * Retrieves details of a specific post by ID.
    * @param data The data for the request.
    * @param data.id A UUID string identifying this post.
    * @returns Post
@@ -215,6 +247,8 @@ export class ApiService {
   }
 
   /**
+   * Update a Post
+   * Updates an existing post. Only the post's author can update it.
    * @param data The data for the request.
    * @param data.id A UUID string identifying this post.
    * @param data.requestBody
@@ -236,27 +270,8 @@ export class ApiService {
   }
 
   /**
-   * @param data The data for the request.
-   * @param data.id A UUID string identifying this post.
-   * @param data.requestBody
-   * @returns Post
-   * @throws ApiError
-   */
-  public static apiPostsPartialUpdate(
-    data: ApiPostsPartialUpdateData,
-  ): CancelablePromise<ApiPostsPartialUpdateResponse> {
-    return __request(OpenAPI, {
-      method: "PATCH",
-      url: "/api/posts/{id}/",
-      path: {
-        id: data.id,
-      },
-      body: data.requestBody,
-      mediaType: "application/json",
-    });
-  }
-
-  /**
+   * Delete a Post
+   * Deletes an existing post. Only the post's author can delete it.
    * @param data The data for the request.
    * @param data.id A UUID string identifying this post.
    * @returns void No response body
@@ -275,6 +290,124 @@ export class ApiService {
   }
 
   /**
+   * List Posts
+   * Retrieves a list of all posts.
+   * @param data The data for the request.
+   * @param data.slug
+   * @param data.limit Number of results to return per page.
+   * @param data.offset The initial index from which to return the results.
+   * @returns PaginatedPostList
+   * @throws ApiError
+   */
+  public static apiPostsList2(
+    data: ApiPostsList2Data,
+  ): CancelablePromise<ApiPostsList2Response> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/posts/{slug}/",
+      path: {
+        slug: data.slug,
+      },
+      query: {
+        limit: data.limit,
+        offset: data.offset,
+      },
+    });
+  }
+
+  /**
+   * Create a Post
+   * Creates a new post. Only authenticated users can create posts, and the post's author is automatically set to the current user.
+   * @param data The data for the request.
+   * @param data.slug
+   * @param data.requestBody
+   * @returns Post
+   * @throws ApiError
+   */
+  public static apiPostsCreate2(
+    data: ApiPostsCreate2Data,
+  ): CancelablePromise<ApiPostsCreate2Response> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/posts/{slug}/",
+      path: {
+        slug: data.slug,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+    });
+  }
+
+  /**
+   * Retrieve a Post
+   * Retrieves details of a specific post by ID.
+   * @param data The data for the request.
+   * @param data.id A UUID string identifying this post.
+   * @param data.slug
+   * @returns Post
+   * @throws ApiError
+   */
+  public static apiPostsRetrieve2(
+    data: ApiPostsRetrieve2Data,
+  ): CancelablePromise<ApiPostsRetrieve2Response> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/posts/{slug}/{id}/",
+      path: {
+        id: data.id,
+        slug: data.slug,
+      },
+    });
+  }
+
+  /**
+   * Update a Post
+   * Updates an existing post. Only the post's author can update it.
+   * @param data The data for the request.
+   * @param data.id A UUID string identifying this post.
+   * @param data.slug
+   * @param data.requestBody
+   * @returns Post
+   * @throws ApiError
+   */
+  public static apiPostsUpdate2(
+    data: ApiPostsUpdate2Data,
+  ): CancelablePromise<ApiPostsUpdate2Response> {
+    return __request(OpenAPI, {
+      method: "PUT",
+      url: "/api/posts/{slug}/{id}/",
+      path: {
+        id: data.id,
+        slug: data.slug,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+    });
+  }
+
+  /**
+   * Delete a Post
+   * Deletes an existing post. Only the post's author can delete it.
+   * @param data The data for the request.
+   * @param data.id A UUID string identifying this post.
+   * @param data.slug
+   * @returns void No response body
+   * @throws ApiError
+   */
+  public static apiPostsDestroy2(
+    data: ApiPostsDestroy2Data,
+  ): CancelablePromise<ApiPostsDestroy2Response> {
+    return __request(OpenAPI, {
+      method: "DELETE",
+      url: "/api/posts/{slug}/{id}/",
+      path: {
+        id: data.id,
+        slug: data.slug,
+      },
+    });
+  }
+
+  /**
    * Check REST API
    * This endpoint checks if the REST API is working.
    * @returns Message
@@ -288,6 +421,8 @@ export class ApiService {
   }
 
   /**
+   * List Users
+   * Retrieves a list of all users.
    * @param data The data for the request.
    * @param data.limit Number of results to return per page.
    * @param data.offset The initial index from which to return the results.
@@ -308,6 +443,8 @@ export class ApiService {
   }
 
   /**
+   * Create a User
+   * Creates a new user.
    * @param data The data for the request.
    * @param data.requestBody
    * @returns User
@@ -325,6 +462,8 @@ export class ApiService {
   }
 
   /**
+   * Retrieve a User
+   * Retrieves details of a specific user by ID.
    * @param data The data for the request.
    * @param data.id A unique integer value identifying this user.
    * @returns User
@@ -343,6 +482,8 @@ export class ApiService {
   }
 
   /**
+   * Update a User
+   * Updates an existing user.
    * @param data The data for the request.
    * @param data.id A unique integer value identifying this user.
    * @param data.requestBody
@@ -364,6 +505,14 @@ export class ApiService {
   }
 
   /**
+   * ViewSet for managing users.
+   *
+   * This viewset provides actions to:
+   * - List all users
+   * - Create a new user
+   * - Retrieve a specific user by ID
+   * - Update a user
+   * - Delete a user
    * @param data The data for the request.
    * @param data.id A unique integer value identifying this user.
    * @param data.requestBody
@@ -385,6 +534,8 @@ export class ApiService {
   }
 
   /**
+   * Delete a User
+   * Deletes an existing user.
    * @param data The data for the request.
    * @param data.id A unique integer value identifying this user.
    * @returns void No response body
@@ -398,6 +549,155 @@ export class ApiService {
       url: "/api/users/{id}/",
       path: {
         id: data.id,
+      },
+    });
+  }
+
+  /**
+   * List Users
+   * Retrieves a list of all users.
+   * @param data The data for the request.
+   * @param data.slug
+   * @param data.limit Number of results to return per page.
+   * @param data.offset The initial index from which to return the results.
+   * @returns PaginatedUserList
+   * @throws ApiError
+   */
+  public static apiUsersList2(
+    data: ApiUsersList2Data,
+  ): CancelablePromise<ApiUsersList2Response> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/users/{slug}/",
+      path: {
+        slug: data.slug,
+      },
+      query: {
+        limit: data.limit,
+        offset: data.offset,
+      },
+    });
+  }
+
+  /**
+   * Create a User
+   * Creates a new user.
+   * @param data The data for the request.
+   * @param data.slug
+   * @param data.requestBody
+   * @returns User
+   * @throws ApiError
+   */
+  public static apiUsersCreate2(
+    data: ApiUsersCreate2Data,
+  ): CancelablePromise<ApiUsersCreate2Response> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/users/{slug}/",
+      path: {
+        slug: data.slug,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+    });
+  }
+
+  /**
+   * Retrieve a User
+   * Retrieves details of a specific user by ID.
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this user.
+   * @param data.slug
+   * @returns User
+   * @throws ApiError
+   */
+  public static apiUsersRetrieve2(
+    data: ApiUsersRetrieve2Data,
+  ): CancelablePromise<ApiUsersRetrieve2Response> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/users/{slug}/{id}/",
+      path: {
+        id: data.id,
+        slug: data.slug,
+      },
+    });
+  }
+
+  /**
+   * Update a User
+   * Updates an existing user.
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this user.
+   * @param data.slug
+   * @param data.requestBody
+   * @returns User
+   * @throws ApiError
+   */
+  public static apiUsersUpdate2(
+    data: ApiUsersUpdate2Data,
+  ): CancelablePromise<ApiUsersUpdate2Response> {
+    return __request(OpenAPI, {
+      method: "PUT",
+      url: "/api/users/{slug}/{id}/",
+      path: {
+        id: data.id,
+        slug: data.slug,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+    });
+  }
+
+  /**
+   * ViewSet for managing users.
+   *
+   * This viewset provides actions to:
+   * - List all users
+   * - Create a new user
+   * - Retrieve a specific user by ID
+   * - Update a user
+   * - Delete a user
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this user.
+   * @param data.slug
+   * @param data.requestBody
+   * @returns User
+   * @throws ApiError
+   */
+  public static apiUsersPartialUpdate2(
+    data: ApiUsersPartialUpdate2Data,
+  ): CancelablePromise<ApiUsersPartialUpdate2Response> {
+    return __request(OpenAPI, {
+      method: "PATCH",
+      url: "/api/users/{slug}/{id}/",
+      path: {
+        id: data.id,
+        slug: data.slug,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+    });
+  }
+
+  /**
+   * Delete a User
+   * Deletes an existing user.
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this user.
+   * @param data.slug
+   * @returns void No response body
+   * @throws ApiError
+   */
+  public static apiUsersDestroy2(
+    data: ApiUsersDestroy2Data,
+  ): CancelablePromise<ApiUsersDestroy2Response> {
+    return __request(OpenAPI, {
+      method: "DELETE",
+      url: "/api/users/{slug}/{id}/",
+      path: {
+        id: data.id,
+        slug: data.slug,
       },
     });
   }
