@@ -12,4 +12,5 @@ from .views import UserViewSet
 
 routes = [
     {"regex": r"users", "viewset": UserViewSet, "basename": "user"},
+    {"regex": r"users/<slug:slug>", "viewset": UserViewSet, "basename": "user_slug"},
 ]

@@ -16,6 +16,7 @@ class CommentSerializer(serializers.ModelSerializer):
     """
     Serializer class for Comment model.
     """
+    author_name = serializers.CharField(source='author.slug', read_only=True)
 
     class Meta:
         model = Comment

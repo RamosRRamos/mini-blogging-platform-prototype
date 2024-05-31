@@ -29,7 +29,7 @@ class CustomUserAdmin(UserAdmin):
         add_fieldsets (tuple): Fieldsets to group fields in the add view.
     """
 
-    list_display = ("id", "email", "created", "modified")
+    list_display = ("id", "email", "slug", "name", "created", "modified")
     list_filter = ("is_active", "is_staff", "groups")
     search_fields = ("email",)
     ordering = ("email",)
@@ -39,7 +39,7 @@ class CustomUserAdmin(UserAdmin):
     )
 
     fieldsets = (
-        (None, {"fields": ("email", "password")}),
+        (None, {"fields": ("name", "slug", "email", "password")}),
         (
             _("Permissions"),
             {

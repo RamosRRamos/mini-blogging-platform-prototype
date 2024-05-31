@@ -1,12 +1,14 @@
 openapi: 3.0.3
 info:
-  title: Vinta Boilerplate API
+  title: Mini Blog API
   version: 0.1.0
-  description: A Django project boilerplate with Vinta's best practices
+  description: A Mini blog project with Django and React.
 paths:
   /api/comments/:
     get:
       operationId: api_comments_list
+      description: Retrieves a list of all comments.
+      summary: List Comments
       parameters:
       - name: limit
         required: false
@@ -24,6 +26,7 @@ paths:
       - api
       security:
       - cookieAuth: []
+      - tokenAuth: []
       responses:
         '200':
           content:
@@ -33,6 +36,9 @@ paths:
           description: ''
     post:
       operationId: api_comments_create
+      description: Creates a new comment. Only authenticated users can create comments,
+        and the comment's author is automatically set to the current user.
+      summary: Create a Comment
       tags:
       - api
       requestBody:
@@ -49,6 +55,7 @@ paths:
         required: true
       security:
       - cookieAuth: []
+      - tokenAuth: []
       responses:
         '201':
           content:
@@ -59,6 +66,8 @@ paths:
   /api/comments/{id}/:
     get:
       operationId: api_comments_retrieve
+      description: Retrieves details of a specific comment by ID.
+      summary: Retrieve a Comment
       parameters:
       - in: path
         name: id
@@ -71,6 +80,7 @@ paths:
       - api
       security:
       - cookieAuth: []
+      - tokenAuth: []
       responses:
         '200':
           content:
@@ -80,6 +90,9 @@ paths:
           description: ''
     put:
       operationId: api_comments_update
+      description: Updates an existing comment. Only the comment's author can update
+        it.
+      summary: Update a Comment
       parameters:
       - in: path
         name: id
@@ -104,38 +117,7 @@ paths:
         required: true
       security:
       - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Comment'
-          description: ''
-    patch:
-      operationId: api_comments_partial_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: string
-          format: uuid
-        description: A UUID string identifying this comment.
-        required: true
-      tags:
-      - api
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedComment'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedComment'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedComment'
-      security:
-      - cookieAuth: []
+      - tokenAuth: []
       responses:
         '200':
           content:
@@ -145,6 +127,9 @@ paths:
           description: ''
     delete:
       operationId: api_comments_destroy
+      description: Deletes an existing comment. Only the comment's author can delete
+        it.
+      summary: Delete a Comment
       parameters:
       - in: path
         name: id
@@ -157,12 +142,42 @@ paths:
       - api
       security:
       - cookieAuth: []
+      - tokenAuth: []
       responses:
         '204':
           description: No response body
+  /api/obtain-auth-token/:
+    post:
+      operationId: api_obtain_auth_token_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
+          description: ''
   /api/posts/:
     get:
       operationId: api_posts_list
+      description: Retrieves a list of all posts.
+      summary: List Posts
       parameters:
       - name: limit
         required: false
@@ -180,6 +195,7 @@ paths:
       - api
       security:
       - cookieAuth: []
+      - tokenAuth: []
       responses:
         '200':
           content:
@@ -189,6 +205,9 @@ paths:
           description: ''
     post:
       operationId: api_posts_create
+      description: Creates a new post. Only authenticated users can create posts,
+        and the post's author is automatically set to the current user.
+      summary: Create a Post
       tags:
       - api
       requestBody:
@@ -205,6 +224,7 @@ paths:
         required: true
       security:
       - cookieAuth: []
+      - tokenAuth: []
       responses:
         '201':
           content:
@@ -215,6 +235,8 @@ paths:
   /api/posts/{id}/:
     get:
       operationId: api_posts_retrieve
+      description: Retrieves details of a specific post by ID.
+      summary: Retrieve a Post
       parameters:
       - in: path
         name: id
@@ -227,6 +249,7 @@ paths:
       - api
       security:
       - cookieAuth: []
+      - tokenAuth: []
       responses:
         '200':
           content:
@@ -236,6 +259,8 @@ paths:
           description: ''
     put:
       operationId: api_posts_update
+      description: Updates an existing post. Only the post's author can update it.
+      summary: Update a Post
       parameters:
       - in: path
         name: id
@@ -260,38 +285,7 @@ paths:
         required: true
       security:
       - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Post'
-          description: ''
-    patch:
-      operationId: api_posts_partial_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: string
-          format: uuid
-        description: A UUID string identifying this post.
-        required: true
-      tags:
-      - api
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedPost'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedPost'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedPost'
-      security:
-      - cookieAuth: []
+      - tokenAuth: []
       responses:
         '200':
           content:
@@ -301,6 +295,8 @@ paths:
           description: ''
     delete:
       operationId: api_posts_destroy
+      description: Deletes an existing post. Only the post's author can delete it.
+      summary: Delete a Post
       parameters:
       - in: path
         name: id
@@ -313,6 +309,178 @@ paths:
       - api
       security:
       - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/posts/{slug}/:
+    get:
+      operationId: api_posts_list_2
+      description: Retrieves a list of all posts.
+      summary: List Posts
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: path
+        name: slug
+        schema:
+          type: string
+          pattern: ^.+$
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPostList'
+          description: ''
+    post:
+      operationId: api_posts_create_2
+      description: Creates a new post. Only authenticated users can create posts,
+        and the post's author is automatically set to the current user.
+      summary: Create a Post
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+          pattern: ^.+$
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Post'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Post'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: ''
+  /api/posts/{slug}/{id}/:
+    get:
+      operationId: api_posts_retrieve_2
+      description: Retrieves details of a specific post by ID.
+      summary: Retrieve a Post
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this post.
+        required: true
+      - in: path
+        name: slug
+        schema:
+          type: string
+          pattern: ^.+$
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: ''
+    put:
+      operationId: api_posts_update_2
+      description: Updates an existing post. Only the post's author can update it.
+      summary: Update a Post
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this post.
+        required: true
+      - in: path
+        name: slug
+        schema:
+          type: string
+          pattern: ^.+$
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Post'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Post'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: ''
+    delete:
+      operationId: api_posts_destroy_2
+      description: Deletes an existing post. Only the post's author can delete it.
+      summary: Delete a Post
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this post.
+        required: true
+      - in: path
+        name: slug
+        schema:
+          type: string
+          pattern: ^.+$
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
       responses:
         '204':
           description: No response body
@@ -325,6 +493,7 @@ paths:
       - api
       security:
       - cookieAuth: []
+      - tokenAuth: []
       - {}
       responses:
         '200':
@@ -342,6 +511,8 @@ paths:
   /api/users/:
     get:
       operationId: api_users_list
+      description: Retrieves a list of all users.
+      summary: List Users
       parameters:
       - name: limit
         required: false
@@ -359,6 +530,7 @@ paths:
       - api
       security:
       - cookieAuth: []
+      - tokenAuth: []
       responses:
         '200':
           content:
@@ -368,6 +540,8 @@ paths:
           description: ''
     post:
       operationId: api_users_create
+      description: Creates a new user.
+      summary: Create a User
       tags:
       - api
       requestBody:
@@ -384,6 +558,7 @@ paths:
         required: true
       security:
       - cookieAuth: []
+      - tokenAuth: []
       responses:
         '201':
           content:
@@ -394,6 +569,8 @@ paths:
   /api/users/{id}/:
     get:
       operationId: api_users_retrieve
+      description: Retrieves details of a specific user by ID.
+      summary: Retrieve a User
       parameters:
       - in: path
         name: id
@@ -405,6 +582,7 @@ paths:
       - api
       security:
       - cookieAuth: []
+      - tokenAuth: []
       responses:
         '200':
           content:
@@ -414,6 +592,8 @@ paths:
           description: ''
     put:
       operationId: api_users_update
+      description: Updates an existing user.
+      summary: Update a User
       parameters:
       - in: path
         name: id
@@ -437,6 +617,7 @@ paths:
         required: true
       security:
       - cookieAuth: []
+      - tokenAuth: []
       responses:
         '200':
           content:
@@ -446,6 +627,15 @@ paths:
           description: ''
     patch:
       operationId: api_users_partial_update
+      description: |-
+        ViewSet for managing users.
+
+        This viewset provides actions to:
+        - List all users
+        - Create a new user
+        - Retrieve a specific user by ID
+        - Update a user
+        - Delete a user
       parameters:
       - in: path
         name: id
@@ -468,6 +658,7 @@ paths:
               $ref: '#/components/schemas/PatchedUser'
       security:
       - cookieAuth: []
+      - tokenAuth: []
       responses:
         '200':
           content:
@@ -477,6 +668,8 @@ paths:
           description: ''
     delete:
       operationId: api_users_destroy
+      description: Deletes an existing user.
+      summary: Delete a User
       parameters:
       - in: path
         name: id
@@ -488,17 +681,246 @@ paths:
       - api
       security:
       - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/users/{slug}/:
+    get:
+      operationId: api_users_list_2
+      description: Retrieves a list of all users.
+      summary: List Users
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserList'
+          description: ''
+    post:
+      operationId: api_users_create_2
+      description: Creates a new user.
+      summary: Create a User
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/users/{slug}/{id}/:
+    get:
+      operationId: api_users_retrieve_2
+      description: Retrieves details of a specific user by ID.
+      summary: Retrieve a User
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: api_users_update_2
+      description: Updates an existing user.
+      summary: Update a User
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: api_users_partial_update_2
+      description: |-
+        ViewSet for managing users.
+
+        This viewset provides actions to:
+        - List all users
+        - Create a new user
+        - Retrieve a specific user by ID
+        - Update a user
+        - Delete a user
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    delete:
+      operationId: api_users_destroy_2
+      description: Deletes an existing user.
+      summary: Delete a User
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
       responses:
         '204':
           description: No response body
 components:
   schemas:
+    AuthToken:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        token:
+          type: string
+          readOnly: true
+      required:
+      - password
+      - token
+      - username
     Comment:
       type: object
+      description: Serializer class for Comment model.
       properties:
         id:
           type: string
           format: uuid
+          readOnly: true
+        author_name:
+          type: string
           readOnly: true
         created:
           type: string
@@ -519,6 +941,7 @@ components:
           type: integer
       required:
       - author
+      - author_name
       - content
       - created
       - id
@@ -526,6 +949,7 @@ components:
       - post
     Message:
       type: object
+      description: Serializer to validate and serialize a message.
       properties:
         message:
           type: string
@@ -600,56 +1024,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/User'
-    PatchedComment:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created:
-          type: string
-          format: date-time
-          readOnly: true
-        modified:
-          type: string
-          format: date-time
-          readOnly: true
-        content:
-          type: string
-        is_removed:
-          type: boolean
-        post:
-          type: string
-          format: uuid
-        author:
-          type: integer
-    PatchedPost:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created:
-          type: string
-          format: date-time
-          readOnly: true
-        modified:
-          type: string
-          format: date-time
-          readOnly: true
-        title:
-          type: string
-          maxLength: 255
-        content:
-          type: string
-        is_draft:
-          type: boolean
-        author:
-          type: integer
     PatchedUser:
       type: object
+      description: Serializer for the User model.
       properties:
         id:
           type: integer
@@ -684,10 +1061,23 @@ components:
           nullable: true
     Post:
       type: object
+      description: |-
+        Serializer for the Post model.
+
+        This serializer automatically generates fields based on the Post model.
+        It includes all the fields of the model for comprehensive data handling.
       properties:
         id:
           type: string
           format: uuid
+          readOnly: true
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+          readOnly: true
+        author_name:
+          type: string
           readOnly: true
         created:
           type: string
@@ -708,6 +1098,8 @@ components:
           type: integer
       required:
       - author
+      - author_name
+      - comments
       - content
       - created
       - id
@@ -715,6 +1107,7 @@ components:
       - title
     User:
       type: object
+      description: Serializer for the User model.
       properties:
         id:
           type: integer
@@ -757,3 +1150,8 @@ components:
       type: apiKey
       in: cookie
       name: sessionid
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"

@@ -7,12 +7,13 @@ Classes:
     - User: Custom user model extending AbstractBaseUser and PermissionsMixin.
 """
 
+import random
+
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from common.models import IndexedTimeStampedModel
-
 from .managers import UserManager
 
 
@@ -30,6 +31,8 @@ class User(AbstractBaseUser, PermissionsMixin, IndexedTimeStampedModel):
         get_short_name(): Returns the short name of the user.
     """
 
+    name = models.CharField(max_length=255, blank=True, null=True)
+    slug = models.SlugField(max_length=255, unique=True)
     email = models.EmailField(max_length=255, unique=True)
     is_staff = models.BooleanField(
         default=False,
@@ -51,16 +54,34 @@ class User(AbstractBaseUser, PermissionsMixin, IndexedTimeStampedModel):
         """
         Returns the full name of the user.
         """
-        return self.email
+        return self.name
 
     def get_short_name(self):
         """
         Returns the short name of the user.
         """
-        return self.email
+        if self.name:
+            return self.name.split()[0]
+
+        return None
 
     def __str__(self):
         """
         Returns the string representation of the user.
         """
         return self.email
+
+    def get_slug(self):
+        return self.slug
+
+    def set_slug(self, slug=None):
+        if slug:
+            self.slug = slug
+        elif not self.slug:
+            email = self.email.split("@")[0]
+            random_number = [random.randint(10, 99) for x in range(5)]
+            self.slug = f"{email}-{''.join(map(str, random_number))}"
+
+    def save(self, *args, **kwargs):
+        self.set_slug()
+        super().save(*args, **kwargs)

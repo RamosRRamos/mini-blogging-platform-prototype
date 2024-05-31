@@ -16,12 +16,11 @@
 </head>
 
 <body>
-  {% include 'includes/sentry_init.html' %}
-  
-  <div class="container" id="navbar"></div>  
+  {% include 'includes/sentry_init.html' %}  
+
   <!-- Body Content -->
   {% block body %}{% endblock %}
-  <div class="container" id="footer"></div>
+
 
   <!-- django-js-reverse -->
   <script src="{% url 'js_reverse' %}" type="text/javascript"></script>
