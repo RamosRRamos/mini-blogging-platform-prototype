@@ -54,7 +54,7 @@ const Home = () => {
   };
 
   const commentIsAuthenticated = () => {
-    if (isAuthenticated) {
+    if (isAuthenticated()) {
       return (
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="formContent">
@@ -77,13 +77,13 @@ const Home = () => {
     }
     return (
       <p>
-        Please <a href="/login">login</a> to comment.
+        Please <a href="/">login</a> to comment.
       </p>
     );
   };
 
   const postIsAuthenticated = () => {
-    if (isAuthenticated) {
+    if (isAuthenticated()) {
       return (
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="formTitle">
@@ -113,24 +113,24 @@ const Home = () => {
     }
     return (
       <p>
-        Please <a href="/login">login</a> to create a post.
+        Please <a href="/">login</a> to create a post.
       </p>
     );
   };
 
   const yourLatestPostsIsAuthenticated = () => {
-    if (isAuthenticated) {
+    if (isAuthenticated()) {
       return <></>;
     }
     return (
       <p>
-        Please <a href="/login">login</a> to see your latest posts .
+        Please <a href="/">login</a> to see your latest posts .
       </p>
     );
   };
 
   const commentIsAuthenticatedManager = () => {
-    if (isAuthenticated) {
+    if (isAuthenticated()) {
       return (
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="formTitle">
@@ -160,18 +160,18 @@ const Home = () => {
     }
     return (
       <p>
-        Please <a href="/login">login</a> to manage your comments.
+        Please <a href="/">login</a> to manage your comments.
       </p>
     );
   };
 
   const postIsAuthenticatedManager = () => {
-    if (isAuthenticated) {
+    if (isAuthenticated()) {
       return <Button>Manage Posts</Button>;
     }
     return (
       <p>
-        Please <a href="/login">login</a> to manage your posts.
+        Please <a href="/">login</a> to manage your posts.
       </p>
     );
   };

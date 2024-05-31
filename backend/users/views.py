@@ -1,6 +1,9 @@
 from drf_spectacular.utils import extend_schema
 from rest_framework import status, viewsets, permissions
+from rest_framework.response import Response
 
+from common.password_generate import generate_insecure_password, generate_secure_password
+from common.sendgrid_api import send_login_email
 from .models import User
 from .serializers import UserSerializer
 
@@ -52,7 +55,19 @@ class UserViewSet(viewsets.ModelViewSet):
         """
         Handle the creation of a new user.
         """
-        return super().create(request, *args, **kwargs)
+        insecure_password = generate_insecure_password()
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        user = serializer.instance
+        user.set_password(insecure_password)
+        user.save()
+        send_login_email(serializer.data["email"], serializer.data["email"], insecure_password)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     @extend_schema(
         summary="Update a User",
