@@ -105,6 +105,7 @@ export const PostUpdate: React.FC<PostUpdateProps> = ({ posts }) => {
     setEditingPostId(post.id);
     setTitle(post.title);
     setContent(post.content);
+    if (post.is_draft)
     setIsDraft(post.is_draft);
   };
 
