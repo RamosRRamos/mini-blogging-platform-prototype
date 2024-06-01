@@ -3,40 +3,42 @@ import {Button, Col, Container, Row} from "react-bootstrap";
 import {ApiService, Post} from "api";
 import isAuthenticated from "utils/isAuthenticated";
 import {useParams} from "react-router";
-import {PostList} from "pages/Commons";
+
 import Form from "react-bootstrap/Form";
+import {userSlug} from "components/PrivateRoute";
+import {useNavigate} from "react-router-dom";
+import {PostList, PostUpdate} from "pages/Commons";
 
 
-const Profile = () => {
+const Posts_Manage = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [content, setContent] = useState("");
-  const {userSlug} = useParams();
+  const userSlugData = userSlug;
 
   useEffect(() => {
-    console.log("User Slug", userSlug);
-    const fetchData = async () => {
-      try {
-        const data = {
-          slug: ""
+    if (isAuthenticated()) {
+      console.log("User Slug", userSlugData);
+      const fetchData = async () => {
+        try {
+          const data = {
+            slug: userSlugData
+          }
+          const postsResponse = await ApiService.apiPostsBySlugList(data);
+          console.log("Post", postsResponse.results); // Verifique se os posts são recuperados corretamente
+
+          setPosts(postsResponse.results);
+
+
+        } catch (error) {
+          console.error("Error fetching data:", error);
         }
-        if (userSlug) {
-          data.slug = userSlug;
-        }
-        const postsResponse = await ApiService.apiPostsBySlugList(data);
-        console.log("Post", postsResponse.results); // Verifique se os posts são recuperados corretamente
+      };
+      fetchData()
+    } else {
+      const navigate = useNavigate();
+      navigate('/');
+    }
 
-        setPosts(postsResponse.results);
-
-        if (isAuthenticated()) {
-
-
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
   }, []);
 
   const commentIsAuthenticated = () => {
@@ -115,11 +117,10 @@ const Profile = () => {
 
       <Row className="mt-3 mb-3">
         <Col md={3}></Col>
-        <Col md={8}><PostList posts={posts} commentIsAuthenticated={commentIsAuthenticated}
-                              handleCommentSubmit={handleCommentSubmit}/></Col>
+        <Col md={8}><PostUpdate posts={posts}/></Col>
       </Row>
     </Container>
   );
 };
 
-export default Profile;
+export default Posts_Manage;

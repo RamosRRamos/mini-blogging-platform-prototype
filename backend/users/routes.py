@@ -9,8 +9,9 @@ Routes:
 
 from .views import UserViewSet
 
-
 routes = [
     {"regex": r"users", "viewset": UserViewSet, "basename": "user"},
-    {"regex": r"users/<slug:slug>", "viewset": UserViewSet, "basename": "user_slug"},
+    {"regex": r"user_by_slug/(?P<slug>.+)", "viewset": UserViewSet, "basename": "user_slug"},
+    {"regex": r"user_by_token/(?P<token>.+)", "viewset": UserViewSet, "basename": "user_by_token"},
+
 ]
