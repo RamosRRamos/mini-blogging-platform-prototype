@@ -96,14 +96,33 @@ interface PostUpdateProps {
 }
 
 export const PostUpdate: React.FC<PostUpdateProps> = ({posts}) => {
-  const [editingPostId, setEditingPostId] = useState<string | null>(null);
 
-  const handleEditPost = (postId: string) => {
-    setEditingPostId(postId);
+  const [editingPostId, setEditingPostId] = useState<string | null>(null);
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>("");
+  const [isDraft, setIsDraft] = useState<boolean>(false);
+
+  const handleEditPost = (post: Post) => {
+    setEditingPostId(post.id);
+    setTitle(post.title);
+    setContent(post.content);
+    if (post.is_draft) setIsDraft(post.is_draft);
+
   };
 
   const handleCancelEdit = () => {
     setEditingPostId(null);
+    setTitle("");
+    setContent("");
+    setIsDraft(false);
+  };
+
+  const handleDeletePost = async (postId: string) => {
+    try {
+      await ApiService.apiPostsDestroy({id:postId});
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -125,29 +144,28 @@ export const PostUpdate: React.FC<PostUpdateProps> = ({posts}) => {
     };
 
     try {
+      if (editingPostId) {
+        data.id = editingPostId;
+        data.requestBody.id = editingPostId;
+      }
       const response = await ApiService.apiPostsUpdate(data);
-      console.log("Post created successfully:", response);
+      console.log("Post updated successfully:", response);
+
       // Limpar o formulário após o envio bem-sucedido
       setTitle("");
       setContent("");
+      setIsDraft(false);
+      setEditingPostId(null);
 
-      // Após criar o post, atualize a lista de posts
-      ApiService.apiPostsList().then((response) => {
-        setPosts(response.results);
-      });
+      window.location.reload();
     } catch (error) {
-      console.error("Error creating post:", error);
+      console.error("Error updating post:", error);
     }
   };
 
-
-  function handleDeletePost(id: string) {
-
-  }
-
   return (
     <div>
-      <hr/>
+      <hr />
       <h2>Edit or Delete Posts</h2>
       {posts.map((post) => (
         <Card key={post.id} className="mb-3">
@@ -161,10 +179,8 @@ export const PostUpdate: React.FC<PostUpdateProps> = ({posts}) => {
                       <Form.Control
                         placeholder="Enter title"
                         type="text"
-                        value={post.title}
-                        onChange={(e) => {
-                          // Implementar a lógica para atualizar o estado do título do post
-                        }}
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
                       />
                     </Form.Group>
                     <Form.Group controlId="formContent">
@@ -173,20 +189,16 @@ export const PostUpdate: React.FC<PostUpdateProps> = ({posts}) => {
                         as="textarea"
                         placeholder="Enter content"
                         rows={3}
-                        value={post.content}
-                        onChange={(e) => {
-                          // Implementar a lógica para atualizar o estado do conteúdo do post
-                        }}
+                        value={content}
+                        onChange={(e) => setContent(e.target.value)}
                       />
                     </Form.Group>
                     <Form.Group controlId="formIsDraft">
                       <Form.Check
                         type="checkbox"
                         label="Is Drafted"
-                        checked={post.is_draft}
-                        onChange={(e) => {
-                          // Implementar a lógica para atualizar o estado do rascunho do post
-                        }}
+                        checked={isDraft}
+                        onChange={(e) => setIsDraft(e.target.checked)}
                       />
                     </Form.Group>
                     <Button variant="primary" type="submit">
@@ -209,7 +221,7 @@ export const PostUpdate: React.FC<PostUpdateProps> = ({posts}) => {
                 )}
               </div>
               <div>
-                <Button variant="primary" onClick={() => handleEditPost(post.id)}>
+                <Button variant="primary" onClick={() => handleEditPost(post)}>
                   Edit
                 </Button>
                 <Button variant="danger" onClick={() => handleDeletePost(post.id)}>
@@ -223,6 +235,7 @@ export const PostUpdate: React.FC<PostUpdateProps> = ({posts}) => {
     </div>
   );
 };
+
 
 
 
