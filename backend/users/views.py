@@ -1,8 +1,9 @@
 from drf_spectacular.utils import extend_schema
 from rest_framework import status, viewsets, permissions
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
-from common.password_generate import generate_insecure_password, generate_secure_password
+from common.password_generate import generate_insecure_password
 from common.sendgrid_api import send_login_email
 from .models import User
 from .serializers import UserSerializer
@@ -24,6 +25,25 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+    def get_queryset(self):
+        token = self.kwargs.get('token')
+        slug = self.kwargs.get('slug')
+
+        if token:
+            user = self.request.user
+            return User.objects.filter(email=user.email)
+        elif slug:
+            return User.objects.filter(slug=slug)
+        else:
+            # Retorna um queryset vazio se nenhum filtro for aplicado
+            return User.objects.none()
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = get_object_or_404(queryset)
+        self.check_object_permissions(self.request, obj)
+        return obj
+
     @extend_schema(
         summary="Retrieve a User",
         description="Retrieves details of a specific user by ID.",
@@ -33,7 +53,9 @@ class UserViewSet(viewsets.ModelViewSet):
         """
         Handle the retrieval of a specific user by ID.
         """
-        return super().retrieve(request, *args, **kwargs)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
     @extend_schema(
         summary="List Users",

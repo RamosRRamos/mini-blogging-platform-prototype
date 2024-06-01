@@ -19,6 +19,7 @@ import Home from "pages/Home";
 import Login from "pages/Login";
 import Profile from "pages/Profile";
 import Logout from "pages/Logout";
+import Posts_Manage from "pages/Posts_Manage";
 
 OpenAPI.interceptors.request.use((request) => {
   const cookies = cookie.parse(document.cookie);
@@ -53,6 +54,7 @@ const AppWrapper = () => {
         <Route element={<Login />} path="/" />
         <Route element={<Logout />} path="/logout" />
         <Route element={<Home />} path="home" />
+        <Route element={<Posts_Manage />} path="posts_manage" />
         <Route element={<Profile />} path="profile/:userSlug" />
         <Route element={<About />} path="about" />
         <Route element={<Blog />} path="blog" />

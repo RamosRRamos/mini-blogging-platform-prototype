@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
-import {ApiService} from "../api";
+import {ApiService, User} from "../api";
 import "../../sass/pages/login.scss";
 
 const Profile = () => {
@@ -10,19 +10,20 @@ const Profile = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [user, setUser] = useState<User>();
+
+  const getFirstName = (email: string) => {
+    const firstName = email.split('@')[0].split('.')[0];
+
+    return `${firstName}`;
+  };
 
 
   const generateSlug = (email: string) => {
-    // Extrai o primeiro nome do email
-    const firstName = email.split('@')[0].split('.')[0];
-
-    // Gera uma sequência de números aleatórios
+    const firstName = getFirstName(email);
     const randomNumber = Math.floor(Math.random() * 1000000);
-
-    // Concatena o primeiro nome com a sequência de números aleatórios
     return `${firstName}${randomNumber}`;
   };
-
 
   const handleLoginSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -34,6 +35,17 @@ const Profile = () => {
       if (response.token) {
         document.cookie = `token=${response.token}`;
         localStorage.setItem("token", response.token);
+        const userData = await ApiService.apiUserByTokenRetrieve({id: 0, token: "1"});
+        setUser(userData);
+        if (typeof userData.results[0].name === "string") {
+          localStorage.setItem("user_name", userData.results[0].name);
+        } else {
+          localStorage.setItem("user_name", getFirstName(userData.results[0].email));
+
+        }
+        localStorage.setItem("user_email", userData.results[0].email);
+        localStorage.setItem("user_slug", userData.results[0].slug);
+        console.log("User data", userData);
         console.log("Login success");
         navigate("/home");
       }
@@ -41,14 +53,15 @@ const Profile = () => {
       console.error("Erro ao fazer login:", error);
     }
   };
-  const generatedSlug = generateSlug(email);
+
   const handleSignupSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     console.log("Signup start");
+    const generatedSlug = generateSlug(email); // Gerar o slug aqui
     let data = {
       requestBody: {
         id: 0,
-        name: name,
+        name,
         slug: generatedSlug,
         email,
         modified: "string",
@@ -58,7 +71,6 @@ const Profile = () => {
     try {
       const response = await ApiService.apiUsersCreate(data);
       console.log("Signup response", response);
-
       console.log("Signup success, email sent");
       navigate("/home");
     } catch (error) {
@@ -113,8 +125,8 @@ const Profile = () => {
               <Form.Control
                 placeholder="Enter name"
                 type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             </Form.Group>
 
@@ -139,3 +151,5 @@ const Profile = () => {
 };
 
 export default Profile;
+
+

@@ -83,6 +83,7 @@ export type Post = {
  * Serializer for the User model.
  */
 export type User = {
+  results?: any;
   readonly id: number;
   name?: string | null;
   slug: string;
@@ -164,14 +165,14 @@ export type ApiPostsCreateData = {
 
 export type ApiPostsCreateResponse = Post;
 
-export type ApiPostsRetrieveData = {
+export type RetrievePostData = {
   /**
    * A UUID string identifying this post.
    */
   id: string;
 };
 
-export type ApiPostsRetrieveResponse = Post;
+export type RetrievePostResponse = Post;
 
 export type ApiPostsUpdateData = {
   /**
@@ -192,7 +193,7 @@ export type ApiPostsDestroyData = {
 
 export type ApiPostsDestroyResponse = void;
 
-export type ApiPostsList2Data = {
+export type ApiPostsBySlugListData = {
   /**
    * Number of results to return per page.
    */
@@ -204,16 +205,16 @@ export type ApiPostsList2Data = {
   slug: string;
 };
 
-export type ApiPostsList2Response = PaginatedPostList;
+export type ApiPostsBySlugListResponse = PaginatedPostList;
 
-export type ApiPostsCreate2Data = {
+export type ApiPostsBySlugCreateData = {
   requestBody: Post;
   slug: string;
 };
 
-export type ApiPostsCreate2Response = Post;
+export type ApiPostsBySlugCreateResponse = Post;
 
-export type ApiPostsRetrieve2Data = {
+export type RetrievePost2Data = {
   /**
    * A UUID string identifying this post.
    */
@@ -221,9 +222,9 @@ export type ApiPostsRetrieve2Data = {
   slug: string;
 };
 
-export type ApiPostsRetrieve2Response = Post;
+export type RetrievePost2Response = Post;
 
-export type ApiPostsUpdate2Data = {
+export type ApiPostsBySlugUpdateData = {
   /**
    * A UUID string identifying this post.
    */
@@ -232,9 +233,9 @@ export type ApiPostsUpdate2Data = {
   slug: string;
 };
 
-export type ApiPostsUpdate2Response = Post;
+export type ApiPostsBySlugUpdateResponse = Post;
 
-export type ApiPostsDestroy2Data = {
+export type ApiPostsBySlugDestroyData = {
   /**
    * A UUID string identifying this post.
    */
@@ -242,9 +243,135 @@ export type ApiPostsDestroy2Data = {
   slug: string;
 };
 
-export type ApiPostsDestroy2Response = void;
+export type ApiPostsBySlugDestroyResponse = void;
 
 export type ApiRestRestCheckRetrieveResponse = Message;
+
+export type ApiUserBySlugListData = {
+  /**
+   * Number of results to return per page.
+   */
+  limit?: number;
+  /**
+   * The initial index from which to return the results.
+   */
+  offset?: number;
+  slug: string;
+};
+
+export type ApiUserBySlugListResponse = PaginatedUserList;
+
+export type ApiUserBySlugCreateData = {
+  requestBody: User;
+  slug: string;
+};
+
+export type ApiUserBySlugCreateResponse = User;
+
+export type ApiUserBySlugRetrieveData = {
+  /**
+   * A unique integer value identifying this user.
+   */
+  id: number;
+  slug: string;
+};
+
+export type ApiUserBySlugRetrieveResponse = User;
+
+export type ApiUserBySlugUpdateData = {
+  /**
+   * A unique integer value identifying this user.
+   */
+  id: number;
+  requestBody: User;
+  slug: string;
+};
+
+export type ApiUserBySlugUpdateResponse = User;
+
+export type ApiUserBySlugPartialUpdateData = {
+  /**
+   * A unique integer value identifying this user.
+   */
+  id: number;
+  requestBody?: PatchedUser;
+  slug: string;
+};
+
+export type ApiUserBySlugPartialUpdateResponse = User;
+
+export type ApiUserBySlugDestroyData = {
+  /**
+   * A unique integer value identifying this user.
+   */
+  id: number;
+  slug: string;
+};
+
+export type ApiUserBySlugDestroyResponse = void;
+
+export type ApiUserByTokenListData = {
+  /**
+   * Number of results to return per page.
+   */
+  limit?: number;
+  /**
+   * The initial index from which to return the results.
+   */
+  offset?: number;
+  token: string;
+};
+
+export type ApiUserByTokenListResponse = PaginatedUserList;
+
+export type ApiUserByTokenCreateData = {
+  requestBody: User;
+  token: string;
+};
+
+export type ApiUserByTokenCreateResponse = User;
+
+export type ApiUserByTokenRetrieveData = {
+  /**
+   * A unique integer value identifying this user.
+   */
+  id: number;
+  token: string;
+};
+
+export type ApiUserByTokenRetrieveResponse = User;
+
+export type ApiUserByTokenUpdateData = {
+  /**
+   * A unique integer value identifying this user.
+   */
+  id: number;
+  requestBody: User;
+  token: string;
+};
+
+export type ApiUserByTokenUpdateResponse = User;
+
+export type ApiUserByTokenPartialUpdateData = {
+  /**
+   * A unique integer value identifying this user.
+   */
+  id: number;
+  requestBody?: PatchedUser;
+  token: string;
+};
+
+export type ApiUserByTokenPartialUpdateResponse = User;
+
+export type ApiUserByTokenDestroyData = {
+  /**
+   * A unique integer value identifying this user.
+   */
+  id: number;
+  token: string;
+};
+
+export type ApiUserByTokenDestroyResponse = void;
 
 export type ApiUsersListData = {
   /**
@@ -302,69 +429,6 @@ export type ApiUsersDestroyData = {
 };
 
 export type ApiUsersDestroyResponse = void;
-
-export type ApiUsersList2Data = {
-  /**
-   * Number of results to return per page.
-   */
-  limit?: number;
-  /**
-   * The initial index from which to return the results.
-   */
-  offset?: number;
-  slug: string;
-};
-
-export type ApiUsersList2Response = PaginatedUserList;
-
-export type ApiUsersCreate2Data = {
-  requestBody: User;
-  slug: string;
-};
-
-export type ApiUsersCreate2Response = User;
-
-export type ApiUsersRetrieve2Data = {
-  /**
-   * A unique integer value identifying this user.
-   */
-  id: number;
-  slug: string;
-};
-
-export type ApiUsersRetrieve2Response = User;
-
-export type ApiUsersUpdate2Data = {
-  /**
-   * A unique integer value identifying this user.
-   */
-  id: number;
-  requestBody: User;
-  slug: string;
-};
-
-export type ApiUsersUpdate2Response = User;
-
-export type ApiUsersPartialUpdate2Data = {
-  /**
-   * A unique integer value identifying this user.
-   */
-  id: number;
-  requestBody?: PatchedUser;
-  slug: string;
-};
-
-export type ApiUsersPartialUpdate2Response = User;
-
-export type ApiUsersDestroy2Data = {
-  /**
-   * A unique integer value identifying this user.
-   */
-  id: number;
-  slug: string;
-};
-
-export type ApiUsersDestroy2Response = void;
 
 export type $OpenApiTs = {
   "/api/comments/": {
@@ -428,7 +492,7 @@ export type $OpenApiTs = {
   };
   "/api/posts/{id}/": {
     get: {
-      req: ApiPostsRetrieveData;
+      req: RetrievePostData;
       res: {
         200: Post;
       };
@@ -449,35 +513,35 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/api/posts/{slug}/": {
+  "/api/posts_by_slug/{slug}/": {
     get: {
-      req: ApiPostsList2Data;
+      req: ApiPostsBySlugListData;
       res: {
         200: PaginatedPostList;
       };
     };
     post: {
-      req: ApiPostsCreate2Data;
+      req: ApiPostsBySlugCreateData;
       res: {
         201: Post;
       };
     };
   };
-  "/api/posts/{slug}/{id}/": {
+  "/api/posts_by_slug/{slug}/{id}/": {
     get: {
-      req: ApiPostsRetrieve2Data;
+      req: RetrievePost2Data;
       res: {
         200: Post;
       };
     };
     put: {
-      req: ApiPostsUpdate2Data;
+      req: ApiPostsBySlugUpdateData;
       res: {
         200: Post;
       };
     };
     delete: {
-      req: ApiPostsDestroy2Data;
+      req: ApiPostsBySlugDestroyData;
       res: {
         /**
          * No response body
@@ -490,6 +554,92 @@ export type $OpenApiTs = {
     get: {
       res: {
         200: Message;
+      };
+    };
+  };
+  "/api/user_by_slug/{slug}/": {
+    get: {
+      req: ApiUserBySlugListData;
+      res: {
+        200: PaginatedUserList;
+      };
+    };
+    post: {
+      req: ApiUserBySlugCreateData;
+      res: {
+        201: User;
+      };
+    };
+  };
+  "/api/user_by_slug/{slug}/{id}/": {
+    get: {
+      req: ApiUserBySlugRetrieveData;
+      res: {
+        200: User;
+      };
+    };
+    put: {
+      req: ApiUserBySlugUpdateData;
+      res: {
+        200: User;
+      };
+    };
+    patch: {
+      req: ApiUserBySlugPartialUpdateData;
+      res: {
+        200: User;
+      };
+    };
+    delete: {
+      req: ApiUserBySlugDestroyData;
+      res: {
+        /**
+         * No response body
+         */
+        204: void;
+      };
+    };
+  };
+  "/api/user_by_token/{token}/": {
+    get: {
+      req: ApiUserByTokenListData;
+      res: {
+        200: PaginatedUserList;
+      };
+    };
+    post: {
+      req: ApiUserByTokenCreateData;
+      res: {
+        201: User;
+      };
+    };
+  };
+  "/api/user_by_token/{token}/{id}/": {
+    get: {
+      req: ApiUserByTokenRetrieveData;
+      res: {
+        200: User;
+      };
+    };
+    put: {
+      req: ApiUserByTokenUpdateData;
+      res: {
+        200: User;
+      };
+    };
+    patch: {
+      req: ApiUserByTokenPartialUpdateData;
+      res: {
+        200: User;
+      };
+    };
+    delete: {
+      req: ApiUserByTokenDestroyData;
+      res: {
+        /**
+         * No response body
+         */
+        204: void;
       };
     };
   };
@@ -528,49 +678,6 @@ export type $OpenApiTs = {
     };
     delete: {
       req: ApiUsersDestroyData;
-      res: {
-        /**
-         * No response body
-         */
-        204: void;
-      };
-    };
-  };
-  "/api/users/{slug}/": {
-    get: {
-      req: ApiUsersList2Data;
-      res: {
-        200: PaginatedUserList;
-      };
-    };
-    post: {
-      req: ApiUsersCreate2Data;
-      res: {
-        201: User;
-      };
-    };
-  };
-  "/api/users/{slug}/{id}/": {
-    get: {
-      req: ApiUsersRetrieve2Data;
-      res: {
-        200: User;
-      };
-    };
-    put: {
-      req: ApiUsersUpdate2Data;
-      res: {
-        200: User;
-      };
-    };
-    patch: {
-      req: ApiUsersPartialUpdate2Data;
-      res: {
-        200: User;
-      };
-    };
-    delete: {
-      req: ApiUsersDestroy2Data;
       res: {
         /**
          * No response body

@@ -234,7 +234,7 @@ paths:
           description: ''
   /api/posts/{id}/:
     get:
-      operationId: api_posts_retrieve
+      operationId: retrieve_post
       description: Retrieves details of a specific post by ID.
       summary: Retrieve a Post
       parameters:
@@ -313,9 +313,9 @@ paths:
       responses:
         '204':
           description: No response body
-  /api/posts/{slug}/:
+  /api/posts_by_slug/{slug}/:
     get:
-      operationId: api_posts_list_2
+      operationId: api_posts_by_slug_list
       description: Retrieves a list of all posts.
       summary: List Posts
       parameters:
@@ -350,7 +350,7 @@ paths:
                 $ref: '#/components/schemas/PaginatedPostList'
           description: ''
     post:
-      operationId: api_posts_create_2
+      operationId: api_posts_by_slug_create
       description: Creates a new post. Only authenticated users can create posts,
         and the post's author is automatically set to the current user.
       summary: Create a Post
@@ -385,9 +385,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Post'
           description: ''
-  /api/posts/{slug}/{id}/:
+  /api/posts_by_slug/{slug}/{id}/:
     get:
-      operationId: api_posts_retrieve_2
+      operationId: retrieve_post_2
       description: Retrieves details of a specific post by ID.
       summary: Retrieve a Post
       parameters:
@@ -417,7 +417,7 @@ paths:
                 $ref: '#/components/schemas/Post'
           description: ''
     put:
-      operationId: api_posts_update_2
+      operationId: api_posts_by_slug_update
       description: Updates an existing post. Only the post's author can update it.
       summary: Update a Post
       parameters:
@@ -459,7 +459,7 @@ paths:
                 $ref: '#/components/schemas/Post'
           description: ''
     delete:
-      operationId: api_posts_destroy_2
+      operationId: api_posts_by_slug_destroy
       description: Deletes an existing post. Only the post's author can delete it.
       summary: Delete a Post
       parameters:
@@ -508,6 +508,434 @@ paths:
                       this, the REST API is working!
                   summary: Successful Response
           description: ''
+  /api/user_by_slug/{slug}/:
+    get:
+      operationId: api_user_by_slug_list
+      description: Retrieves a list of all users.
+      summary: List Users
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: path
+        name: slug
+        schema:
+          type: string
+          pattern: ^.+$
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserList'
+          description: ''
+    post:
+      operationId: api_user_by_slug_create
+      description: Creates a new user.
+      summary: Create a User
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+          pattern: ^.+$
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/user_by_slug/{slug}/{id}/:
+    get:
+      operationId: api_user_by_slug_retrieve
+      description: Retrieves details of a specific user by ID.
+      summary: Retrieve a User
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      - in: path
+        name: slug
+        schema:
+          type: string
+          pattern: ^.+$
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: api_user_by_slug_update
+      description: Updates an existing user.
+      summary: Update a User
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      - in: path
+        name: slug
+        schema:
+          type: string
+          pattern: ^.+$
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: api_user_by_slug_partial_update
+      description: |-
+        ViewSet for managing users.
+
+        This viewset provides actions to:
+        - List all users
+        - Create a new user
+        - Retrieve a specific user by ID
+        - Update a user
+        - Delete a user
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      - in: path
+        name: slug
+        schema:
+          type: string
+          pattern: ^.+$
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    delete:
+      operationId: api_user_by_slug_destroy
+      description: Deletes an existing user.
+      summary: Delete a User
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      - in: path
+        name: slug
+        schema:
+          type: string
+          pattern: ^.+$
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/user_by_token/{token}/:
+    get:
+      operationId: api_user_by_token_list
+      description: Retrieves a list of all users.
+      summary: List Users
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: path
+        name: token
+        schema:
+          type: string
+          pattern: ^.+$
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserList'
+          description: ''
+    post:
+      operationId: api_user_by_token_create
+      description: Creates a new user.
+      summary: Create a User
+      parameters:
+      - in: path
+        name: token
+        schema:
+          type: string
+          pattern: ^.+$
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/user_by_token/{token}/{id}/:
+    get:
+      operationId: api_user_by_token_retrieve
+      description: Retrieves details of a specific user by ID.
+      summary: Retrieve a User
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      - in: path
+        name: token
+        schema:
+          type: string
+          pattern: ^.+$
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: api_user_by_token_update
+      description: Updates an existing user.
+      summary: Update a User
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      - in: path
+        name: token
+        schema:
+          type: string
+          pattern: ^.+$
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: api_user_by_token_partial_update
+      description: |-
+        ViewSet for managing users.
+
+        This viewset provides actions to:
+        - List all users
+        - Create a new user
+        - Retrieve a specific user by ID
+        - Update a user
+        - Delete a user
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      - in: path
+        name: token
+        schema:
+          type: string
+          pattern: ^.+$
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    delete:
+      operationId: api_user_by_token_destroy
+      description: Deletes an existing user.
+      summary: Delete a User
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      - in: path
+        name: token
+        schema:
+          type: string
+          pattern: ^.+$
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
   /api/users/:
     get:
       operationId: api_users_list
@@ -676,214 +1104,6 @@ paths:
         schema:
           type: integer
         description: A unique integer value identifying this user.
-        required: true
-      tags:
-      - api
-      security:
-      - cookieAuth: []
-      - tokenAuth: []
-      responses:
-        '204':
-          description: No response body
-  /api/users/{slug}/:
-    get:
-      operationId: api_users_list_2
-      description: Retrieves a list of all users.
-      summary: List Users
-      parameters:
-      - name: limit
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - name: offset
-        required: false
-        in: query
-        description: The initial index from which to return the results.
-        schema:
-          type: integer
-      - in: path
-        name: slug
-        schema:
-          type: string
-        required: true
-      tags:
-      - api
-      security:
-      - cookieAuth: []
-      - tokenAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PaginatedUserList'
-          description: ''
-    post:
-      operationId: api_users_create_2
-      description: Creates a new user.
-      summary: Create a User
-      parameters:
-      - in: path
-        name: slug
-        schema:
-          type: string
-        required: true
-      tags:
-      - api
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/User'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/User'
-        required: true
-      security:
-      - cookieAuth: []
-      - tokenAuth: []
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-          description: ''
-  /api/users/{slug}/{id}/:
-    get:
-      operationId: api_users_retrieve_2
-      description: Retrieves details of a specific user by ID.
-      summary: Retrieve a User
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this user.
-        required: true
-      - in: path
-        name: slug
-        schema:
-          type: string
-        required: true
-      tags:
-      - api
-      security:
-      - cookieAuth: []
-      - tokenAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-          description: ''
-    put:
-      operationId: api_users_update_2
-      description: Updates an existing user.
-      summary: Update a User
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this user.
-        required: true
-      - in: path
-        name: slug
-        schema:
-          type: string
-        required: true
-      tags:
-      - api
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/User'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/User'
-        required: true
-      security:
-      - cookieAuth: []
-      - tokenAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-          description: ''
-    patch:
-      operationId: api_users_partial_update_2
-      description: |-
-        ViewSet for managing users.
-
-        This viewset provides actions to:
-        - List all users
-        - Create a new user
-        - Retrieve a specific user by ID
-        - Update a user
-        - Delete a user
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this user.
-        required: true
-      - in: path
-        name: slug
-        schema:
-          type: string
-        required: true
-      tags:
-      - api
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedUser'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedUser'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedUser'
-      security:
-      - cookieAuth: []
-      - tokenAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-          description: ''
-    delete:
-      operationId: api_users_destroy_2
-      description: Deletes an existing user.
-      summary: Delete a User
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this user.
-        required: true
-      - in: path
-        name: slug
-        schema:
-          type: string
         required: true
       tags:
       - api

@@ -55,11 +55,11 @@ const Navbar = () => {
   return (
     <Navbar1 className="full-width-navbar" expand="lg">
       <Container>
-        <Navbar1.Brand href="#home">Home</Navbar1.Brand>
+        <Navbar1.Brand href="/home">Home</Navbar1.Brand>
         <Navbar1.Toggle aria-controls="basic-navbar-nav" />
         <Navbar1.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#home">Posts</Nav.Link>
+            <Nav.Link href="/home">Posts</Nav.Link>
             <Nav.Link href="#link">Configs</Nav.Link>
           </Nav>
           <Form className="d-flex">

@@ -9,7 +9,11 @@ const Logout = () => {
   useEffect(() => {
     // Limpar o token de autenticação
     localStorage.removeItem("token");
-    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    localStorage.removeItem("user_name");
+    localStorage.removeItem("user_email");
+    localStorage.removeItem("user_slug");
+
+  document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
     // Redirecionar após 3 segundos
     const timer = setTimeout(() => {
