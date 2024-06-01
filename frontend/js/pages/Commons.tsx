@@ -95,8 +95,7 @@ interface PostUpdateProps {
   posts: Post[];
 }
 
-export const PostUpdate: React.FC<PostUpdateProps> = ({posts}) => {
-
+export const PostUpdate: React.FC<PostUpdateProps> = ({ posts }) => {
   const [editingPostId, setEditingPostId] = useState<string | null>(null);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
@@ -106,8 +105,7 @@ export const PostUpdate: React.FC<PostUpdateProps> = ({posts}) => {
     setEditingPostId(post.id);
     setTitle(post.title);
     setContent(post.content);
-    if (post.is_draft) setIsDraft(post.is_draft);
-
+    setIsDraft(post.is_draft);
   };
 
   const handleCancelEdit = () => {
@@ -118,10 +116,15 @@ export const PostUpdate: React.FC<PostUpdateProps> = ({posts}) => {
   };
 
   const handleDeletePost = async (postId: string) => {
-    try {
-      await ApiService.apiPostsDestroy({id:postId});
-    } catch (error) {
-      console.error("Error deleting post:", error);
+    const confirmDelete = window.confirm("Are you sure you want to delete this post?");
+    if (confirmDelete) {
+      try {
+        await ApiService.apiPostsDestroy({ id: postId });
+        console.log("Post deleted successfully");
+        window.location.reload();
+      } catch (error) {
+        console.error("Error deleting post:", error);
+      }
     }
   };
 
@@ -129,9 +132,9 @@ export const PostUpdate: React.FC<PostUpdateProps> = ({posts}) => {
     event.preventDefault();
 
     const data = {
-      id: "",
+      id: editingPostId || "",
       requestBody: {
-        id: "",
+        id: editingPostId || "",
         title,
         content,
         created: "",
@@ -144,10 +147,6 @@ export const PostUpdate: React.FC<PostUpdateProps> = ({posts}) => {
     };
 
     try {
-      if (editingPostId) {
-        data.id = editingPostId;
-        data.requestBody.id = editingPostId;
-      }
       const response = await ApiService.apiPostsUpdate(data);
       console.log("Post updated successfully:", response);
 
@@ -168,66 +167,63 @@ export const PostUpdate: React.FC<PostUpdateProps> = ({posts}) => {
       <hr />
       <h2>Edit or Delete Posts</h2>
       {posts.map((post) => (
-        <Card key={post.id} className="mb-3">
+        <Card key={post.id} className="mb-3 shadow-sm">
           <Card.Body>
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
-                {editingPostId === post.id ? (
-                  <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="formTitle">
-                      <Form.Label>Title</Form.Label>
-                      <Form.Control
-                        placeholder="Enter title"
-                        type="text"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                      />
-                    </Form.Group>
-                    <Form.Group controlId="formContent">
-                      <Form.Label>Content</Form.Label>
-                      <Form.Control
-                        as="textarea"
-                        placeholder="Enter content"
-                        rows={3}
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                      />
-                    </Form.Group>
-                    <Form.Group controlId="formIsDraft">
-                      <Form.Check
-                        type="checkbox"
-                        label="Is Drafted"
-                        checked={isDraft}
-                        onChange={(e) => setIsDraft(e.target.checked)}
-                      />
-                    </Form.Group>
-                    <Button variant="primary" type="submit">
+            <div className="d-flex flex-column">
+              {editingPostId === post.id ? (
+                <Form onSubmit={handleSubmit}>
+                  <Form.Group controlId="formTitle">
+                    <Form.Control
+                      className="mb-2"
+                      placeholder="Enter title"
+                      type="text"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId="formContent">
+                    <Form.Control
+                      as="textarea"
+                      placeholder="Enter content"
+                      rows={3}
+                      value={content}
+                      onChange={(e) => setContent(e.target.value)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId="formIsDraft" className="my-2">
+                    <Form.Check
+                      type="checkbox"
+                      label="Is Drafted"
+                      checked={isDraft}
+                      onChange={(e) => setIsDraft(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <div className="d-flex justify-content-end">
+                    <Button variant="primary" type="submit" className="me-2">
                       Save
                     </Button>
                     <Button variant="secondary" onClick={handleCancelEdit}>
                       Cancel
                     </Button>
-                  </Form>
-                ) : (
-                  <>
-                    <h4 className="card-title">{post.title}</h4>
-                    <p className="card-text">{post.content}</p>
-                    <p className="mb-0">
-                      <small className="text-muted">
-                        Last Modified: {format(new Date(post.modified), 'dd/MM/yyyy')}
-                      </small>
-                    </p>
-                  </>
-                )}
-              </div>
-              <div>
-                <Button variant="primary" onClick={() => handleEditPost(post)}>
-                  Edit
-                </Button>
-                <Button variant="danger" onClick={() => handleDeletePost(post.id)}>
-                  Delete
-                </Button>
-              </div>
+                  </div>
+                </Form>
+              ) : (
+                <>
+                  <h4 className="card-title">{post.title}</h4>
+                  <p className="card-text">{post.content}</p>
+                  <p className="mb-0 text-muted">
+                    <small>Last Modified: {format(new Date(post.modified), "dd/MM/yyyy")}</small>
+                  </p>
+                  <div className="d-flex justify-content-end mt-2">
+                    <Button variant="outline-primary" className="me-2" onClick={() => handleEditPost(post)}>
+                      Edit
+                    </Button>
+                    <Button variant="outline-danger" onClick={() => handleDeletePost(post.id)}>
+                      Delete
+                    </Button>
+                  </div>
+                </>
+              )}
             </div>
           </Card.Body>
         </Card>

@@ -2,12 +2,11 @@ import React, {useEffect, useState} from "react";
 import {Button, Col, Container, Row} from "react-bootstrap";
 import {ApiService, Post} from "api";
 import isAuthenticated from "utils/isAuthenticated";
-import {useParams} from "react-router";
-
 import Form from "react-bootstrap/Form";
 import {userSlug} from "components/PrivateRoute";
 import {useNavigate} from "react-router-dom";
-import {PostList, PostUpdate} from "pages/Commons";
+import {PostUpdate} from "pages/Commons";
+import "../../sass/pages/post_manage.scss";
 
 
 const Posts_Manage = () => {
@@ -108,16 +107,11 @@ const Posts_Manage = () => {
   };
 
   return (
-    <Container className="full-home" fluid>
-      <Row className="mt-3 mb-3"/>
-
-      <Row className="mt-3">
-        {/* Seção para exibir detalhes do perfil do usuário */}
-      </Row>
-
+    <Container className="full-post-manage">
       <Row className="mt-3 mb-3">
-        <Col md={3}></Col>
-        <Col md={8}><PostUpdate posts={posts}/></Col>
+        <Col md={2}></Col>
+        <Col md={12}><PostUpdate posts={posts}/></Col>
+        <Col md={2}></Col>
       </Row>
     </Container>
   );

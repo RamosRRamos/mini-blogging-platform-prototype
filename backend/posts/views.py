@@ -13,7 +13,6 @@ from typing import ClassVar
 
 from drf_spectacular.utils import extend_schema
 from rest_framework import status, viewsets
-from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
 from common.permissions import IsPostAuthorIsAuthenticatedOrReadOnly
@@ -48,15 +47,12 @@ class PostViewSet(viewsets.ModelViewSet):
         responses={status.HTTP_200_OK: PostSerializer},
         operation_id="retrieve_post",
 
-
     )
     def retrieve(self, request, *args, **kwargs):
         """
         Handle the retrieval of a specific post by ID.
         """
         return super().retrieve(request, *args, **kwargs)
-
-
 
     @extend_schema(
         summary="List Posts",
@@ -102,7 +98,25 @@ class PostViewSet(viewsets.ModelViewSet):
 
         Only the post's author can update it.
         """
-        return super().update(request, *args, **kwargs)
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        data = {
+            'title': request.data.get('title', instance.title),
+            'content': request.data.get('content', instance.content),
+            'is_draft': request.data.get('is_draft', instance.is_draft),
+            'author': request.user.id,
+
+        }
+        serializer = self.get_serializer(instance, data=data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            # If 'prefetch_related' has been applied to a queryset, we need to
+            # forcibly invalidate the prefetch cache on the instance.
+            instance._prefetched_objects_cache = {}
+
+        return Response(serializer.data)
 
     @extend_schema(
         summary="Delete a Post",
